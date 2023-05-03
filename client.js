@@ -1,8 +1,8 @@
 const holdings = {
-  BTC:   0.00061307 + 1.35133898 + 0.03986048, // binance + trezor + bittrex
+  BTC:   0.00061307 + 1.35133898 + 0.07975679, // binance + trezor + bittrex
   ETH:   5.01914747,
-  USDT:  3034.481228, //3034,
-  EUR:   2005.801167, // 3000,
+  USDT:  3034.481228,
+  EUR:   1002.90,
 
   ATOM:  26.27370000,
   ALGO:  1418.40200000,
@@ -218,7 +218,7 @@ function rPad(number, width = 10, placeholder = '‎ ') {
   return n.length >= width ? n : n + (new Array(width - n.length + 1).join(placeholder));
 }
 
-let urlType = 'fake';
+let urlType = 'binance';
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
   try {
