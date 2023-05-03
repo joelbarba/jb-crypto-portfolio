@@ -15,9 +15,8 @@ All the client logic is embeded in "client.js"
 
 ## Deployment
 
-See https://render.com/docs/deploy-node-express-app or follow the steps below:
+This app has been deployed on: https://jb-crypto-portfolio.onrender.com/
 
-Create a new web service with the following values:
-  * Build Command: `yarn`
-  * Start Command: `node app.js`
+The deployment is done through render.com here: https://dashboard.render.com/web/srv-ch948crhp8u0vh9p3r90/deploys/dep-ch948d3hp8u0vh9p3srg
 
+The github repository is connected to the webservice, so you can push new commits directly and run a new deployment.
