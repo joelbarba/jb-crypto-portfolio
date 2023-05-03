@@ -217,19 +217,24 @@ function rPad(number, width = 10, placeholder = '‎ ') {
   const n = number + '';
   return n.length >= width ? n : n + (new Array(width - n.length + 1).join(placeholder));
 }
+
+let urlType = 'fake';
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
-  let url = 1;
-  if (url === 0) { // Going through Binance proxy
-    const res = await fetch(`api/price?symbol=${symbol}`).then(r => r.json());
+  try {
+    if (urlType === 'proxy') { // Going through Binance proxy
+      res = await fetch(`api/price?symbol=${symbol}`).then(r => r.json());
+    }
+    if (urlType === 'fake') { // Fake endpoint
+      res = await fetch(`api/fake-price?symbol=${symbol}`).then(r => r.json());    
+    }
+    if (urlType === 'binance') { // Direct Binance API
+      res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`).then(r => r.json());
+    }  
+    return Number.parseFloat(res.price);    
+  } catch(err) {
+    console.log(err);
   }
-  if (url === 1) { // Fake endpoint
-    const res = await fetch(`api/fake-price?symbol=${symbol}`).then(r => r.json());    
-  }
-  if (url === 2) { // Direct Binance API
-    const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`).then(r => r.json());
-  }  
-  return Number.parseFloat(res.price);
 }
 
 loadPrices();
