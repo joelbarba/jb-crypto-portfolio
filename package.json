@@ -1,0 +1,24 @@
+{
+  "name": "jb-crypto-portfolio",
+  "version": "1.0.0",
+  "description": "Node js proxy to Binance API to show current portfolio real time values",
+  "main": "server.js",
+  "repository": "https://github.com/joelbarba/jb-crypto-portfolio.git",
+  "author": "Joel Barba",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nocache": "^3.0.4",
+    "path": "^0.12.7",
+    "request": "^2.88.2"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

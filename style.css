@@ -1,0 +1,38 @@
+html { background: black; color: aliceblue; font-size: 16px; font-family: monospace; }
+
+
+.main-table {
+  text-align: right;
+}
+.row-header { background: #424242; }
+th { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
+td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
+
+/*th:nth-child(4), td:nth-child(4) {*/
+/*  min-width: 100px;*/
+/*}*/
+
+.usd-price { color: #6dd6ff; }
+.totals-eur { color: yellow; }
+
+#btn-reload-prices, #btn-copy-clipboard {
+  margin: 20px 20px 20px 0;
+  padding: 5px 12px;
+}
+
+#btn-stop {
+  font-size: 18px;
+  padding: 1px 6px;
+}
+#btn-play {
+  font-size: 18px;
+  padding: 1px 6px 2px;
+}
+
+#play-bar {
+  border: 1px #2e2e2e solid;
+  min-width: 240px;
+  display: inline-block;
+  padding: 0 3px;
+  min-height: 10px;
+}
