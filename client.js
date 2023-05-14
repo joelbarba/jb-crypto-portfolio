@@ -251,8 +251,8 @@ function rPad(number, width = 10, placeholder = '‎ ') {
   return n.length >= width ? n : n + (new Array(width - n.length + 1).join(placeholder));
 }
 
-// let urlType = 'binance';
-let urlType = 'fake';
+let urlType = 'binance';
+// let urlType = 'fake';
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
   try {
