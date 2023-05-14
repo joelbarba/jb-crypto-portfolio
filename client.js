@@ -28,6 +28,7 @@ document.getElementById('btn-copy-clipboard').addEventListener('click', () => co
 document.getElementById('btn-reload-prices').addEventListener('click', () => loadPrices());
 document.getElementById('btn-stop').addEventListener('click', () => changePlay(false));
 document.getElementById('btn-play').addEventListener('click', () => changePlay(true));
+document.getElementById('btn-clear-storage').addEventListener('click', () => localStorage.clear());
 
 const checkUsd = document.getElementById('usd-check');
 const checkEur = document.getElementById('eur-check');
