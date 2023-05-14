@@ -1,30 +1,57 @@
+// Push with: sh push.sh "commit message" - Public site on: https://jb-crypto.netlify.app/
 const holdings = {
-  BTC:   0.00061307 + 1.35133898 + 0.07975679, // binance + trezor + bittrex
-  ETH:   5.01914747,
-  USDT:  3034.481228,
-  EUR:   1002.90,
+  BTC:   localStorage.getItem('BTC')   || (0.00061307 + 1.35133898 + 0.07975679), // binance + trezor + bittrex
+  ETH:   localStorage.getItem('ETH')   || 5.01914747,
+  USDT:  localStorage.getItem('USDT')  || 3034.481228,
+  EUR:   localStorage.getItem('EUR')   || 1002.90,
 
-  ATOM:  26.27370000,
-  ALGO:  1418.40200000,
-  DOT:   48.65130000,
-  MATIC: 269.43030000,
-  ADA:   551.14830000,
-  SOL:   9.20079000,
-  MANA:  333.66600000,
-  SAND:  308.6910000,
-  ARB:   96.6033,
-  XRP:   574.425,
-};
+  ATOM:  localStorage.getItem('ATOM')  || 26.27370000,
+  ALGO:  localStorage.getItem('ALGO')  || 1418.40200000,
+  DOT:   localStorage.getItem('DOT')   || 48.65130000,
+  MATIC: localStorage.getItem('MATIC') || 269.43030000,
+  ADA:   localStorage.getItem('ADA')   || 551.14830000,
+  SOL:   localStorage.getItem('SOL')   || 9.20079000,
+  MANA:  localStorage.getItem('MANA')  || 333.66600000,
+  SAND:  localStorage.getItem('SAND')  || 308.6910000,
+  ARB:   localStorage.getItem('ARB')   || 96.6033,
+  XRP:   localStorage.getItem('XRP')   || 574.425,
+};  
+
+Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
+
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-
+const totalInvested = localStorage.getItem('totalInvested') || 45200;
+localStorage.setItem('totalInvested', totalInvested);
 
 document.getElementById('btn-copy-clipboard').addEventListener('click', () => copyToClipboard());
 document.getElementById('btn-reload-prices').addEventListener('click', () => loadPrices());
 document.getElementById('btn-stop').addEventListener('click', () => changePlay(false));
 document.getElementById('btn-play').addEventListener('click', () => changePlay(true));
 
-
+const checkUsd = document.getElementById('usd-check');
+const checkEur = document.getElementById('eur-check');
+checkUsd.addEventListener('click', (ev) => checkCurrency('usd'));
+checkEur.addEventListener('click', (ev) => checkCurrency('eur'));
+function checkCurrency(curr) {
+  if (curr === 'usd' && !checkUsd.checked && !checkEur.checked) { checkEur.checked = true; }
+  if (curr === 'eur' && !checkEur.checked && !checkUsd.checked) { checkUsd.checked = true; }
+  console.log('click', checkUsd.checked, checkEur.checked);
+  Object.entries({ ...holdings, header: '' }).forEach(([key, val]) => {
+    document.getElementById(key.toLowerCase() + '-usd-price').style.display = checkUsd.checked ? 'table-cell' : 'none';
+    document.getElementById(key.toLowerCase() + '-eur-price').style.display = checkEur.checked ? 'table-cell' : 'none';
+    document.getElementById(key.toLowerCase() + '-usd-total').style.display = checkUsd.checked ? 'table-cell' : 'none';
+    document.getElementById(key.toLowerCase() + '-eur-total').style.display = checkEur.checked ? 'table-cell' : 'none';
+  });
+  document.getElementById('separator-row').setAttribute('colspan', checkEur.checked && checkUsd.checked ? 5 : 3);
+  document.getElementById('totals-btc').setAttribute('colspan', checkEur.checked && checkUsd.checked ? 2 : 1);
+  document.getElementById('totals-usd-total').style.display = checkUsd.checked ? 'table-cell' : 'none';
+  document.getElementById('totals-eur-total').style.display = checkEur.checked ? 'table-cell' : 'none';
+  document.getElementById('totals-profit').style.display = checkEur.checked ? 'table-cell' : 'none';
+  document.getElementById('profit-pad').setAttribute('colspan', checkUsd.checked && checkUsd.checked ? 4 : 2);
+}
+checkUsd.checked = true;
+checkEur.checked = true;
 
 async function loadPrices() {
   console.log('Loading prices...');
@@ -115,6 +142,10 @@ function printValues() {
   document.getElementById('totals-btc').innerHTML = ` ~ ${num(totals.btc, 16, 12)} BTC`;
   document.getElementById('totals-usd-total').innerHTML = `${num(totals.usd)} $`;
   document.getElementById('totals-eur-total').innerHTML = `<span class="totals-eur">${num(totals.eur)}</span> €`;
+
+  const net = totals.eur - totalInvested;
+  const netClass = net > 0 ? 'pos' : 'neg' ;
+  document.getElementById('totals-profit').innerHTML = `<span class="totals-profit ${netClass}">${net > 0 ? '+': ''}${num(net)}</span> €`;
 }
 
 function printCoin(coinName, val, obj) {
@@ -195,8 +226,10 @@ function copyToClipboard() {
 function num(number, width = 10, decimals = 2) {
   const rounder = Math.pow(10, decimals);
   const n = Math.round(rounder * (number + '')) / rounder;
+  const neg = n < 0;
   const [ p1, p2 ] = (n + '').split('.');
   const a = p1.split('');
+  if (neg) { a.shift(); } // remove the '-'
   let b = '';
   while (a.length) {
     b = a.pop() + b;
@@ -204,7 +237,7 @@ function num(number, width = 10, decimals = 2) {
     if (a.length) b = a.pop() + b;
     if (a.length) b = ',' + b;
   }
-  const res = b + '.' + rPad(p2 || '0', decimals, '0');
+  const res = (neg ? '-':'') + b + '.' + rPad(p2 || '0', decimals, '0');
   return pad(res, width);
 }
 
@@ -218,7 +251,8 @@ function rPad(number, width = 10, placeholder = '‎ ') {
   return n.length >= width ? n : n + (new Array(width - n.length + 1).join(placeholder));
 }
 
-let urlType = 'binance';
+// let urlType = 'binance';
+let urlType = 'fake';
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
   try {

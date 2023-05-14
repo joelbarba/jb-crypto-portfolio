@@ -14,8 +14,10 @@ app.use(bodyParser.raw({ type: ['*/*'] }));
 app.use(nocache());
 
 app.get('/', function(req, res, next) { return res.sendFile(path.join(__dirname, './index.html')); });
+app.get('/mob.html', function(req, res, next) { return res.sendFile(path.join(__dirname, './mob.html')); });
 app.get('/client.js', function(req, res, next) { return res.sendFile(path.join(__dirname, './client.js')); });
 app.get('/style.css', function(req, res, next) { return res.sendFile(path.join(__dirname, './style.css')); });
+app.get('/mob.css', function(req, res, next) { return res.sendFile(path.join(__dirname, './mob.css')); });
 
 app.listen(PORT, () => console.log(`Server ready on http://127.0.0.1:${PORT}`));
 
@@ -46,5 +48,6 @@ app.get('/api/fake-price', (req, res, next) => {
   if (symbol === 'MANAUSDT')  { return res.send({ price: 0.6257 });  } if (symbol === 'MANABTC')  { return res.send({ price: 0.00002152 }); }
   if (symbol === 'SANDUSDT')  { return res.send({ price: 0.6438 });  } if (symbol === 'SANDBTC')  { return res.send({ price: 0.00002207 }); }
   if (symbol === 'ARBUSDT')   { return res.send({ price: 1.5333 });  } if (symbol === 'ARBBTC')   { return res.send({ price: 0.00005311 }); }
+  if (symbol === 'XRPUSDT')   { return res.send({ price: 1.5333 });  } if (symbol === 'XRPBTC')   { return res.send({ price: 0.00002311 }); }
 });
 
