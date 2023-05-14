@@ -1,9 +1,9 @@
 // Push with: sh push.sh "commit message" - Public site on: https://jb-crypto.netlify.app/
 const holdings = {
-  BTC:   localStorage.getItem('BTC')   || (0.00061307 + 1.35133898 + 0.07975679), // binance + trezor + bittrex
+  BTC:   localStorage.getItem('BTC')   || (0.00061307 + 1.35133898 + 0.121312), // binance + trezor + bittrex
   ETH:   localStorage.getItem('ETH')   || 5.01914747,
   USDT:  localStorage.getItem('USDT')  || 3034.481228,
-  EUR:   localStorage.getItem('EUR')   || 1002.90,
+  EUR:   localStorage.getItem('EUR')   || 0,
 
   ATOM:  localStorage.getItem('ATOM')  || 26.27370000,
   ALGO:  localStorage.getItem('ALGO')  || 1418.40200000,
