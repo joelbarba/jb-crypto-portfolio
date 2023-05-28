@@ -37,7 +37,7 @@ checkEur.addEventListener('click', (ev) => checkCurrency('eur'));
 function checkCurrency(curr) {
   if (curr === 'usd' && !checkUsd.checked && !checkEur.checked) { checkEur.checked = true; }
   if (curr === 'eur' && !checkEur.checked && !checkUsd.checked) { checkUsd.checked = true; }
-  console.log('click', checkUsd.checked, checkEur.checked);
+  // console.log('click', checkUsd.checked, checkEur.checked);
   Object.entries({ ...holdings, header: '' }).forEach(([key, val]) => {
     document.getElementById(key.toLowerCase() + '-usd-price').style.display = checkUsd.checked ? 'table-cell' : 'none';
     document.getElementById(key.toLowerCase() + '-eur-price').style.display = checkEur.checked ? 'table-cell' : 'none';
@@ -53,6 +53,16 @@ function checkCurrency(curr) {
 }
 checkUsd.checked = true;
 checkEur.checked = true;
+document.getElementById('btn-filter-usd')?.addEventListener('click', () => { 
+  checkUsd.checked = true;
+  checkEur.checked = false;
+  checkCurrency('usd');
+});
+document.getElementById('btn-filter-eur')?.addEventListener('click', () => { 
+  checkUsd.checked = false;
+  checkEur.checked = true;
+  checkCurrency('eur');
+});
 
 async function loadPrices() {
   console.log('Loading prices...');
@@ -70,6 +80,9 @@ async function loadPrices() {
   printCoin('BTC',  holdings.BTC,  data.BTC);
   printCoin('USDT', holdings.USDT, data.USDT);
   printCoin('EUR',  holdings.EUR,  data.EUR);
+
+  const el = document.getElementById('main-btc-usd');
+  el.innerHTML = `1 BTC = <span class="usd-price">${num(data.BTC.price.usdt, 10, 2)}</span> $`;
   console.log('----------------');
 
   async function fetchAlt(name, quantity) {

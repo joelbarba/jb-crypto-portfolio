@@ -7,6 +7,7 @@
 </head>
 <body>
 <!--<h1>JB Online Portfolio</h1>-->
+<h1 style="text-align: center;" id="main-btc-usd">1 BTC = ???</h1>
 
 <!--<button id="btn-stop">⏹</button>-->
 <button style="display: none;" id="btn-copy-clipboard">Copy to clipboard</button>
@@ -134,7 +135,7 @@
   </tr>
 </table>
 
-<div style="padding: 15px 0 0 5px; font-size: 45px;">
+<div style="padding: 15px 0 0 5px; font-size: 45px; display: none;">
   <label for="usd-check">USD</label>
   <input type="checkbox" id="usd-check" name="usd-check" style="height: 45px; width: 45px;">
   <label style="margin-left: 30px" for="eur-check">EUR</label>
@@ -142,7 +143,9 @@
 </div>
 
 
-<button id="btn-reload-prices">Reload Prices</button>
+<button class="action-btn" id="btn-filter-eur">EUR</button>
+<button class="action-btn" id="btn-filter-usd">USD</button>
+<button class="action-btn" id="btn-reload-prices">Reload Prices</button>
 
 <button id="btn-clear-storage" style="margin-top: 200px; display: block; padding: 5px 40px;">Clear Storage</button>
 

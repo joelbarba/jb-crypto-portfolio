@@ -16,10 +16,10 @@ td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
 .eur-price { color: #6dd6ff; }
 .totals-eur { color: yellow; }
 
-#btn-reload-prices, #btn-copy-clipboard {
-  margin: 20px 20px 20px 0;
-  padding: 5px 12px;
-}
+/*#btn-reload-prices, #btn-copy-clipboard, #btn-filter-eur, #btn-filter-usd {*/
+/*  margin: 20px 20px 20px 0;*/
+/*  padding: 5px 12px;*/
+/*}*/
 
 #btn-stop {
   font-size: 18px;
@@ -41,8 +41,10 @@ td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
 .totals-profit.pos { color: lime; }
 .totals-profit.neg { color: red; }
 
-#btn-reload-prices {
+/*#btn-reload-prices {*/
+.action-btn {
   margin-top: 50px;
+  margin-right: 80px;
   font-size: 50px;
-  padding: 10px 35px;
+  padding: 20px 35px;
 }
