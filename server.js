@@ -18,6 +18,7 @@ app.get('/mob.html', function(req, res, next) { return res.sendFile(path.join(__
 app.get('/client.js', function(req, res, next) { return res.sendFile(path.join(__dirname, './client.js')); });
 app.get('/style.css', function(req, res, next) { return res.sendFile(path.join(__dirname, './style.css')); });
 app.get('/mob.css', function(req, res, next) { return res.sendFile(path.join(__dirname, './mob.css')); });
+app.get('/favicon.png', function(req, res, next) { return res.sendFile(path.join(__dirname, './favicon.png')); });
 
 app.listen(PORT, () => console.log(`Server ready on http://127.0.0.1:${PORT}`));
 
