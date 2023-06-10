@@ -1,20 +1,20 @@
 // Push with: sh push.sh "commit message" - Public site on: https://jb-crypto.netlify.app/
 const holdings = {
-  BTC:   localStorage.getItem('BTC')   || (0.00061307 + 1.58653666 + 0), // binance + trezor + bittrex
+  BTC:   localStorage.getItem('BTC')   || (0.06237110 + 1.58653666 + 0), // binance + trezor + bittrex
   ETH:   localStorage.getItem('ETH')   || 5.01914747,
   USDT:  localStorage.getItem('USDT')  || 0,
   EUR:   localStorage.getItem('EUR')   || 0,
 
-  ATOM:  localStorage.getItem('ATOM')  || 26.27370000,
-  ALGO:  localStorage.getItem('ALGO')  || 1418.40200000,
-  DOT:   localStorage.getItem('DOT')   || 48.65130000,
-  MATIC: localStorage.getItem('MATIC') || 269.43030000,
-  ADA:   localStorage.getItem('ADA')   || 551.14830000,
-  SOL:   localStorage.getItem('SOL')   || 9.20079000,
-  MANA:  localStorage.getItem('MANA')  || 333.66600000,
-  SAND:  localStorage.getItem('SAND')  || 308.6910000,
-  ARB:   localStorage.getItem('ARB')   || 96.6033,
-  XRP:   localStorage.getItem('XRP')   || 574.425,
+  ATOM:  localStorage.getItem('ATOM')  || 0, // 26.27370000,
+  ALGO:  localStorage.getItem('ALGO')  || 0, // 1418.40200000,
+  DOT:   localStorage.getItem('DOT')   || 0, // 48.65130000,
+  MATIC: localStorage.getItem('MATIC') || 0, // 269.43030000,
+  ADA:   localStorage.getItem('ADA')   || 0, // 551.14830000,
+  SOL:   localStorage.getItem('SOL')   || 0, // 9.20079000,
+  MANA:  localStorage.getItem('MANA')  || 0, // 333.66600000,
+  SAND:  localStorage.getItem('SAND')  || 0, // 308.6910000,
+  ARB:   localStorage.getItem('ARB')   || 0, // 96.6033,
+  XRP:   localStorage.getItem('XRP')   || 0, // 574.425,
 };  
 
 Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
