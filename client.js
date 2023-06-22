@@ -28,6 +28,7 @@ document.getElementById('btn-copy-clipboard').addEventListener('click', () => co
 document.getElementById('btn-reload-prices').addEventListener('click', () => loadPrices());
 document.getElementById('btn-stop').addEventListener('click', () => changePlay(false));
 document.getElementById('btn-play').addEventListener('click', () => changePlay(true));
+document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC());
 // document.getElementById('btn-clear-storage').addEventListener('click', () => localStorage.clear());
 
 const checkUsd = document.getElementById('usd-check');
@@ -186,30 +187,49 @@ function showLoading(loading = false) {
   document.getElementById('btn-reload-prices').disabled = loading;
 }
 
-let playInterval;
+let isPlaying = false;
 let playSec = 0
-function changePlay(play = false) {
+async function changePlay(play = false) {
+  isPlaying = play;
   console.log('play = ', play);
   document.getElementById('btn-stop').disabled = !play;
   document.getElementById('btn-play').disabled = !!play;
-  if (play) {
-    playInterval = setInterval(() => {
-      playSec++;
-      // document.getElementById('play-bar').innerText += '·';
-      document.getElementById('play-bar').innerText = 60 - playSec;
-      if (playSec >= 60) {
-        document.getElementById('play-bar').innerText = '';
-        playSec = 0;
-        loadPrices();
-      }
-    }, 1000);
-  } else {
-    if (playInterval) {
-      clearInterval(playInterval);
-      playInterval = null;
-    }
+  while (isPlaying) {
+    await loadBTC();
+    await new Promise(resolve => setTimeout(resolve, 100));
   }
+  // if (play) {
+  //   playInterval = setInterval(() => {
+  //     playSec++;
+  //     if (playSec === 0) { document.getElementById('play-bar').innerText = ''; }
+  //     if (playSec === 1) { document.getElementById('play-bar').innerText = '.'; }
+  //     if (playSec === 2) { document.getElementById('play-bar').innerText = '..'; }
+  //     if (playSec === 3) { document.getElementById('play-bar').innerText = '...'; }
+  //     if (playSec >= 3) {
+  //       playSec = 0;
+  //     }
+  //     loadBTC();
+  //   }, 200);
+  // } else {
+  //   if (playInterval) {
+  //     clearInterval(playInterval);
+  //     playInterval = null;
+  //   }
+  // }
 }
+
+async function loadBTC() {
+  console.log('Loading BTC price...');
+  showLoading(true);
+  const btcUsdt = await getPrice('BTCUSDT');
+  const el = document.getElementById('main-btc-usd');
+  el.innerHTML = `1 BTC = <span class="usd-price">${num(btcUsdt, 10, 2)}</span> $`;
+  document.getElementById('last-update').innerText = Intl.DateTimeFormat('en-ie', { dateStyle: 'medium', timeStyle: 'medium', timeZone: 'Europe/Brussels'}).format(new Date());
+  playSec = 0; document.getElementById('play-bar').innerText = '';
+  showLoading(false);
+}
+
+
 
 function copyToClipboard() {
   // const tag = document.getElementById('clipboard-input');
