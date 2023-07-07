@@ -1,6 +1,6 @@
 // Push with: sh push.sh "commit message" - Public site on: https://jb-crypto.netlify.app/
 const holdings = {
-  BTC:   (0 + 1.72334315 + 0), // binance + trezor + bittrex
+  BTC:   (0 + 1.72334315 + 0.107919), // binance + trezor + bittrex
   ETH:   5.01914747,
   USDT:  0,
   EUR:   0,
