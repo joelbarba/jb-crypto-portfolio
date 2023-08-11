@@ -1,4 +1,4 @@
-// Push with: sh push.sh "commit message" - Public site on: https://jb-crypto.netlify.app/
+// git add -A && git commit -m "last update" && git push origin master
 const holdings = {
   BTC:   1.90603938, // (0 + 1.72334315 + 0.18269623), // binance + trezor + bittrex
   ETH:   5.01914747,
