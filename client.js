@@ -20,7 +20,7 @@ const holdings = {
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-const totalInvested = 50000;
+const totalInvested = 52000;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
