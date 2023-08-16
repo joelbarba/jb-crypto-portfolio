@@ -1,6 +1,6 @@
 // git add -A && git commit -m "last update" && git push origin master
 const holdings = {
-  BTC:   1.90603938, // (0 + 1.72334315 + 0.18269623), // binance + trezor + bittrex
+  BTC:   2.01839498, // (0 + 1.72334315 + 0.29505183), // binance + trezor + bittrex
   ETH:   5.01914747,
   USDT:  0,
   EUR:   0,
@@ -20,7 +20,7 @@ const holdings = {
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-const totalInvested = 52000;
+const totalInvested = 55000;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
