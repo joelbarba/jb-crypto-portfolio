@@ -1,6 +1,6 @@
-// git add -A && git commit -m "stacked more stats" && git push origin master
+// git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.04153474, // (0 + 1.72334315 + 0.31819159), // binance + trezor + bittrex
+  BTC:   2.06791549, // (0 + 1.02329343 + 1.04462206), // binance + trezor + bittrex
   ETH:   5.01914747,
   USDT:  0,
   EUR:   0,
