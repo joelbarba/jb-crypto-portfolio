@@ -28,6 +28,15 @@ document.getElementById('btn-copy-clipboard').addEventListener('click', () => co
 document.getElementById('btn-reload-prices').addEventListener('click', () => loadPrices());
 document.getElementById('btn-stop').addEventListener('click', () => changePlay(false));
 document.getElementById('btn-play').addEventListener('click', () => changePlay(true));
+document.getElementById('btn-interv-down').addEventListener('click', () => {
+  if (loadTime > 1) { loadTime--; playSec = loadTime; }
+  document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+});
+document.getElementById('btn-interv-up').addEventListener('click', () => {
+  loadTime++; playSec = loadTime;
+  document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+});
+
 document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC());
 // document.getElementById('btn-clear-storage').addEventListener('click', () => localStorage.clear());
 
@@ -117,7 +126,7 @@ async function loadPrices() {
   printValues();
   showLoading(false);
   document.getElementById('last-update').innerText = Intl.DateTimeFormat('en-ie', { dateStyle: 'medium', timeStyle: 'medium', timeZone: 'Europe/Brussels'}).format(new Date());
-  playSec = 0; document.getElementById('play-bar').innerText = '';
+  // playSec = 0; document.getElementById('play-bar').innerText = '';
 }
 
 function calculateTotals() {
@@ -187,17 +196,37 @@ function showLoading(loading = false) {
   document.getElementById('btn-reload-prices').disabled = loading;
 }
 
+
+
+
 let isPlaying = false;
-let playSec = 0
+let playSec = 1
+let loadTime = 15;
+let playInterval;
+
+setInterval(() => {
+  if (isPlaying) {
+    playSec--;
+    document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+    if (playSec <= 0) { playSec = loadTime; loadBTC(); }
+  }
+}, 1000);
+
+
 async function changePlay(play = false) {
   isPlaying = play;
   console.log('play = ', play);
   document.getElementById('btn-stop').disabled = !play;
   document.getElementById('btn-play').disabled = !!play;
-  while (isPlaying) {
-    await loadBTC();
-    await new Promise(resolve => setTimeout(resolve, 100));
-  }
+  // if (isPlaying && playSec <= 0) {
+  //   playSec = loadTime;
+  // }
+  // while (isPlaying) {
+  //   await loadBTC();
+  //   await new Promise(resolve => {
+  //     playInterval = setTimeout(resolve, loadTime*1000);
+  //   });
+  // }
   // if (play) {
   //   playInterval = setInterval(() => {
   //     playSec++;
@@ -225,7 +254,7 @@ async function loadBTC() {
   const el = document.getElementById('main-btc-usd');
   el.innerHTML = `1 BTC = <span class="usd-price">${num(btcUsdt, 10, 2)}</span> $`;
   document.getElementById('last-update').innerText = Intl.DateTimeFormat('en-ie', { dateStyle: 'medium', timeStyle: 'medium', timeZone: 'Europe/Brussels'}).format(new Date());
-  playSec = 0; document.getElementById('play-bar').innerText = '';
+  // playSec = 0; document.getElementById('play-bar').innerText = `Every ${loadTime} seconds`;
   showLoading(false);
 }
 

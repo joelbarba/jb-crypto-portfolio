@@ -30,13 +30,13 @@ td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
   padding: 1px 6px 2px;
 }
 
-#play-bar {
+/*#play-bar {
   border: 1px #2e2e2e solid;
   min-width: 240px;
   display: inline-block;
   padding: 0 3px;
   min-height: 10px;
-}
+}*/
 
 .totals-profit.pos { color: lime; }
 .totals-profit.neg { color: red; }
