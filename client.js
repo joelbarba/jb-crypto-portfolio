@@ -29,12 +29,15 @@ document.getElementById('btn-reload-prices').addEventListener('click', () => loa
 document.getElementById('btn-stop').addEventListener('click', () => changePlay(false));
 document.getElementById('btn-play').addEventListener('click', () => changePlay(true));
 document.getElementById('btn-interv-down').addEventListener('click', () => {
-  if (loadTime > 1) { loadTime--; playSec = loadTime; }
-  document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+  if (loadTime > 1) { 
+    loadTime = Math.round(loadTime / 2);
+    playSec = loadTime; 
+  }
+  showInterval();
 });
 document.getElementById('btn-interv-up').addEventListener('click', () => {
-  loadTime++; playSec = loadTime;
-  document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+  loadTime = loadTime * 2; playSec = loadTime;
+  showInterval();
 });
 
 document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC());
@@ -201,13 +204,13 @@ function showLoading(loading = false) {
 
 let isPlaying = false;
 let playSec = 1
-let loadTime = 15;
+let loadTime = 60;
 let playInterval;
 
 setInterval(() => {
   if (isPlaying) {
     playSec--;
-    document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+    showInterval();
     if (playSec <= 0) { playSec = loadTime; loadBTC(); }
   }
 }, 1000);
@@ -245,6 +248,17 @@ async function changePlay(play = false) {
   //     playInterval = null;
   //   }
   // }
+}
+
+function showInterval() {
+  if (playSec < 60) {
+    document.getElementById('play-bar').innerText = `Loading in ${playSec} seconds...`;
+  } else {
+    const min = Math.floor(playSec / 60);
+    const sec = playSec - (min * 60);
+    document.getElementById('play-bar').innerText = `Loading in ${min}:${ pad(sec, 2, '0') } ...`;
+
+  }
 }
 
 async function loadBTC() {
