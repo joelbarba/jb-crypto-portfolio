@@ -93,6 +93,7 @@ async function loadPrices() {
   printCoin('BTC',  holdings.BTC,  data.BTC);
   printCoin('USDT', holdings.USDT, data.USDT);
   printCoin('EUR',  holdings.EUR,  data.EUR);
+  document.title = `BTC = ${num(btcUsdt, 10, 2)} $`;
 
   const el = document.getElementById('main-btc-usd');
   el.innerHTML = `1 BTC = <span class="usd-price">${num(data.BTC.price.usdt, 10, 2)}</span> $`;
@@ -262,14 +263,16 @@ function showInterval() {
 }
 
 async function loadBTC() {
-  console.log('Loading BTC price...');
-  showLoading(true);
-  const btcUsdt = await getPrice('BTCUSDT');
-  const el = document.getElementById('main-btc-usd');
-  el.innerHTML = `1 BTC = <span class="usd-price">${num(btcUsdt, 10, 2)}</span> $`;
-  document.getElementById('last-update').innerText = Intl.DateTimeFormat('en-ie', { dateStyle: 'medium', timeStyle: 'medium', timeZone: 'Europe/Brussels'}).format(new Date());
-  // playSec = 0; document.getElementById('play-bar').innerText = `Every ${loadTime} seconds`;
-  showLoading(false);
+  await loadPrices();
+  // console.log('Loading BTC price...');
+  // showLoading(true);
+  // const btcUsdt = await getPrice('BTCUSDT');
+  // const el = document.getElementById('main-btc-usd');
+  // el.innerHTML = `1 BTC = <span class="usd-price">${num(btcUsdt, 10, 2)}</span> $`;
+  // document.getElementById('last-update').innerText = Intl.DateTimeFormat('en-ie', { dateStyle: 'medium', timeStyle: 'medium', timeZone: 'Europe/Brussels'}).format(new Date());
+  // document.title = `1 BTC = ${num(btcUsdt, 10, 2)} $`;
+  // // playSec = 0; document.getElementById('play-bar').innerText = `Every ${loadTime} seconds`;
+  // showLoading(false);
 }
 
 
