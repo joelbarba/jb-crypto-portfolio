@@ -43,6 +43,14 @@ document.getElementById('btn-interv-up').addEventListener('click', () => {
 document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC());
 // document.getElementById('btn-clear-storage').addEventListener('click', () => localStorage.clear());
 
+
+const clock1 = document.getElementById('clock1');
+const clock2 = document.getElementById('clock2');
+
+
+
+
+
 const checkUsd = document.getElementById('usd-check');
 const checkEur = document.getElementById('eur-check');
 checkUsd.addEventListener('click', (ev) => checkCurrency('usd'));
@@ -213,6 +221,13 @@ setInterval(() => {
     playSec--;
     showInterval();
     if (playSec <= 0) { playSec = loadTime; loadBTC(); }
+  }
+  if (clock1) {
+    const bcnTime = new Date();
+    const dubTime = new Date();
+    dubTime.setTime(dubTime.getTime() - (60*60*1000));
+    clock1.innerHTML = `DUB: ${(dubTime + '').slice(0,24)}`;
+    clock2.innerHTML = `BCN: ${(bcnTime + '').slice(0,24)}`;
   }
 }, 1000);
 
