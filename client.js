@@ -57,8 +57,8 @@ function loadColdWallet() {
   const cWltWarn = document.getElementById('cold-wallet-warning');
   if (cWlt) {
     coldWalletBtn.disabled = true;
-    const address = `3Cs8YQDYuz2KGM27WTYCDHjdewT4c7KH2w`;
-    // const address = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
+    // const address = `3Cs8YQDYuz2KGM27WTYCDHjdewT4c7KH2w`;
+    const address = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
     fetch(`https://blockchain.info/q/addressbalance/${address}`).then(q => {
       q.json().then(res => {
         const balance = res/100000000;
