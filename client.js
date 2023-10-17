@@ -1,6 +1,6 @@
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.06791549, // (1.02329343 + 1.04462206)  // trezor + bittrex
+  BTC:   2.06768084, // (1.02305878 + 1.04462206)  // trezor + bittrex
   ETH:   7.01267631, // (5.01914747 + 1.99352884)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
@@ -47,6 +47,32 @@ document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC(
 const clock1 = document.getElementById('clock1');
 const clock2 = document.getElementById('clock2');
 
+
+
+// Cold wallet check up
+const coldWalletBtn = document.getElementById('cold-wallet-btn');
+if (coldWalletBtn) { document.getElementById('cold-wallet-btn').addEventListener('click', () => loadColdWallet()); }
+function loadColdWallet() {
+  const cWlt = document.getElementById('cold-wallet-balance');
+  const cWltWarn = document.getElementById('cold-wallet-warning');
+  if (cWlt) {
+    coldWalletBtn.disabled = true;
+    const address = `3Cs8YQDYuz2KGM27WTYCDHjdewT4c7KH2w`;
+    // const address = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
+    fetch(`https://blockchain.info/q/addressbalance/${address}`).then(q => {
+      q.json().then(res => {
+        const balance = res/100000000;
+        if (res !== 102305878) { cWltWarn.style.display = 'block'; }
+        console.log('Cold Wallet Balance', balance);
+        cWlt.innerHTML = `${balance}`;
+        coldWalletBtn.disabled = false;        
+      })
+    }).catch(err => {
+      console.log('Could not load Blockchain API');
+    });
+  }
+}
+loadColdWallet();
 
 
 
