@@ -9,6 +9,7 @@
 <body>
 <!--<h1>JB Online Portfolio</h1>-->
 <h1 style="text-align: center;" id="main-btc-usd">1 BTC = ???</h1>
+<h1 id="cold-wallet-warning" style="color: red; display: none;">WARNING!!!!! Cold Wallet ALERT!!!</h1>
 
 <!--<button id="btn-stop">⏹</button>-->
 <button style="display: none;" id="btn-copy-clipboard">Copy to clipboard</button>
@@ -137,6 +138,16 @@
     <td id="totals-profit">...</td>
   </tr>
 </table>
+
+<div style="margin: 15px 0px;">
+  <span><a href="https://btc1.trezor.io/address/bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry" target="_blank" style="color: yellow;">
+    Cold Wallet</a> (bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry):
+  </span>
+  <span id="cold-wallet-balance" style="color: #5aff0a;"></span>
+  <br>
+  <span> BTC</span>
+  <button id="cold-wallet-btn">Reload</button>
+</div>
 
 <div style="padding: 15px 0 0 5px; font-size: 45px; display: none;">
   <label for="usd-check">USD</label>
