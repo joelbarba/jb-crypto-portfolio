@@ -1,6 +1,6 @@
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.28089684, // (1.02305878 + 1.25783806)  // trezor + bittrex
+  BTC:   2.27806646, // (1.02022840 + 1.25783806)  // trezor + bittrex
   ETH:   7.01267631, // (5.01914747 + 1.99352884)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
@@ -58,15 +58,20 @@ function loadColdWallet() {
   if (cWlt) {
     coldWalletBtn.disabled = true;
     // const address = `3Cs8YQDYuz2KGM27WTYCDHjdewT4c7KH2w`;
-    const address = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
-    fetch(`https://blockchain.info/q/addressbalance/${address}`).then(q => {
-      q.json().then(res => {
-        const balance = res/100000000;
-        if (res !== 102305878) { cWltWarn.style.display = 'block'; }
+    const address1 = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
+    const address2 = `bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9`;
+    Promise.all([
+      fetch(`https://blockchain.info/q/addressbalance/${address1}`).then(q => q.json()),
+      fetch(`https://blockchain.info/q/addressbalance/${address2}`).then(q => q.json()),
+    ]).then(([balance1, balance2]) => {
+        const balance = (balance1 + balance2) /100000000;
         console.log('Cold Wallet Balance', balance);
+        console.log(`address1 ${address1} = ${balance1} BTC`);
+        console.log(`address1 ${address2} = ${balance2} BTC`);
+        if (balance1 + balance2 !== 102022840) { cWltWarn.style.display = 'block'; }
         cWlt.innerHTML = `${balance}`;
-        coldWalletBtn.disabled = false;        
-      })
+        coldWalletBtn.disabled = false;
+
     }).catch(err => {
       console.log('Could not load Blockchain API');
     });
