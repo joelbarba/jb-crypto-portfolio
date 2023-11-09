@@ -47,6 +47,35 @@ document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC(
 const clock1 = document.getElementById('clock1');
 const clock2 = document.getElementById('clock2');
 
+projection = false;
+const btcPriceEl = document.getElementById('btc-usd-price');
+btcPriceEl.addEventListener('click', () => { projection = !projection; if (projection) { btcPriceEl.style.background = 'gray'; }});
+document.addEventListener("wheel", (event) => {
+  if (projection) {
+    const wheelChange = event.deltaY > 0 ? 'down': 'up';
+    console.log('moving wheel', wheelChange);
+
+    const delta = wheelChange === 'up' ? 500.00 : -500.00;
+    data.BTC.price.usdt = Math.floor((data.BTC.price.usdt + delta) / 100) * 100;
+    data.BTC.price.eur =  Math.round(100 * data.BTC.price.usdt * data.USDT.price.eur) / 100;
+
+    data.ETH.price.usdt = data.ETH.price.btc * data.BTC.price.usdt; 
+    data.ETH.price.eur =  Math.round(100 * data.ETH.price.usdt * data.USDT.price.eur) / 100;
+
+    calculateTotals();
+    printCoin('BTC',  holdings.BTC,  data.BTC);
+    printCoin('USDT', holdings.USDT, data.USDT);
+
+    const el = document.getElementById('main-btc-usd');
+    el.innerHTML = `1 BTC = <span class="usd-price">${num(data.BTC.price.usdt, 10, 2)}</span> $`;
+
+    calculateTotals();
+    console.log(data);
+
+    printValues();
+    btcPriceEl.style.background = 'gray';
+  }
+});
 
 
 // Cold wallet check up
