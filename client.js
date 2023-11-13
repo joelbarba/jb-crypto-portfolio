@@ -242,6 +242,26 @@ function printValues() {
   const net = totals.eur - totalInvested;
   const netClass = net > 0 ? 'pos' : 'neg' ;
   document.getElementById('totals-profit').innerHTML = `<span class="totals-profit ${netClass}">${net > 0 ? '+': ''}${num(net)}</span> €`;
+
+  // Los primeros 6.000 euros se tributan al 19%, 
+  // los siguientes 6.000 a 50.000 euros al 21%, 
+  // los siguientes 50.000 a 200.000 euros al 23%, 
+  // los siguientes 200.000 a 300.000 euros al 27% 
+  // y cualquier importe superior a 300.000 euros se tributa al 28%.
+
+  let taxes = 0;
+  let capital = net;
+  if (capital > 300000) { taxes += (capital - 300000) * 0.28; capital = 300000; }
+  if (capital > 200000) { taxes += (capital - 200000) * 0.27; capital = 200000; }
+  if (capital >  50000) { taxes += (capital -  50000) * 0.23; capital =  50000; }
+  if (capital >   6000) { taxes += (capital -   6000) * 0.21; capital =   6000; }
+  if (capital >      0) { taxes += capital * 0.19; }
+  const afterTax = net - taxes;
+
+  document.getElementById('totals-taxes').innerHTML = `<span>-${num(taxes)} €</span>`;
+  document.getElementById('totals-profit-after-taxes').innerHTML = `<span class="totals-profit">${afterTax > 0 ? '+': ''}${num(afterTax)}</span> €`;
+
+
 }
 
 function printCoin(coinName, val, obj) {
