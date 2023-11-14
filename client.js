@@ -20,7 +20,7 @@ const holdings = {
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-const totalInvested = 65000;
+let totalInvested = 65000;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
@@ -47,35 +47,63 @@ document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC(
 const clock1 = document.getElementById('clock1');
 const clock2 = document.getElementById('clock2');
 
-projection = false;
-const btcPriceEl = document.getElementById('btc-usd-price');
-btcPriceEl.addEventListener('click', () => { projection = !projection; if (projection) { btcPriceEl.style.background = 'gray'; }});
-document.addEventListener("wheel", (event) => {
-  if (projection) {
-    const wheelChange = event.deltaY > 0 ? 'down': 'up';
-    console.log('moving wheel', wheelChange);
 
-    const delta = wheelChange === 'up' ? 500.00 : -500.00;
+// -------- Projections System ------------------------
+document.getElementById('eur-invested').value = totalInvested;
+document.getElementById('eur-invested').addEventListener("input", ev => {
+  totalInvested = document.getElementById('eur-invested').value; 
+  calculateTotals();
+  printValues();
+});
+
+let cellSel;
+const btcPriceEl = document.getElementById('btc-usd-price');
+btcPriceEl.addEventListener('click', () => selectCell('btc-price'));
+document.getElementById('btc-holdings').addEventListener('click', () => selectCell('btc-holdings'));
+document.getElementById('eth-holdings').addEventListener('click', () => selectCell('eth-holdings'));
+document.getElementById('eur-invested').addEventListener('click', () => selectCell('eur-invested'));
+function selectCell(val) {
+  cellSel = val;
+  btcPriceEl.style.background = cellSel === 'btc-price' ? 'gray' : 'none';
+  document.getElementById('btc-holdings').style.background = cellSel === 'btc-holdings' ? 'gray' : 'none';
+  document.getElementById('eth-holdings').style.background = cellSel === 'eth-holdings' ? 'gray' : 'none';
+  document.getElementById('eur-invested').style.background = cellSel === 'eur-invested' ? 'yellow' : 'white';
+}
+document.addEventListener("wheel", (event) => {
+  const wheelChange = event.deltaY > 0 ? 'down': 'up';
+  // console.log('moving wheel', wheelChange);
+  let delta = wheelChange === 'up' ? 500.00 : -500.00;
+
+  if (cellSel === 'btc-price') {
     data.BTC.price.usdt = Math.floor((data.BTC.price.usdt + delta) / 100) * 100;
     data.BTC.price.eur =  Math.round(100 * data.BTC.price.usdt * data.USDT.price.eur) / 100;
-
     data.ETH.price.usdt = data.ETH.price.btc * data.BTC.price.usdt; 
     data.ETH.price.eur =  Math.round(100 * data.ETH.price.usdt * data.USDT.price.eur) / 100;
-
     calculateTotals();
     printCoin('BTC',  holdings.BTC,  data.BTC);
     printCoin('USDT', holdings.USDT, data.USDT);
-
     const el = document.getElementById('main-btc-usd');
     el.innerHTML = `1 BTC = <span class="usd-price">${num(data.BTC.price.usdt, 10, 2)}</span> $`;
-
-    calculateTotals();
-    console.log(data);
-
-    printValues();
-    btcPriceEl.style.background = 'gray';
   }
+  if (cellSel === 'btc-holdings') {
+    let delta = wheelChange === 'up' ? 0.01 : -0.01;
+    holdings.BTC = Math.round((holdings.BTC + delta) * 100) / 100;
+  }
+  if (cellSel === 'eth-holdings') {
+    let delta = wheelChange === 'up' ? 0.1 : -0.1;
+    holdings.ETH = Math.round((holdings.ETH + delta) * 10) / 10;
+  }
+  if (cellSel === 'eur-invested') {
+    let delta = wheelChange === 'up' ? 1000 : -1000;
+    totalInvested = Math.round(totalInvested + delta);
+    document.getElementById('eur-invested').value = totalInvested;
+  }
+  calculateTotals();
+  printValues();
 });
+
+
+
 
 
 // Cold wallet check up
@@ -317,33 +345,6 @@ async function changePlay(play = false) {
   console.log('play = ', play);
   document.getElementById('btn-stop').disabled = !play;
   document.getElementById('btn-play').disabled = !!play;
-  // if (isPlaying && playSec <= 0) {
-  //   playSec = loadTime;
-  // }
-  // while (isPlaying) {
-  //   await loadBTC();
-  //   await new Promise(resolve => {
-  //     playInterval = setTimeout(resolve, loadTime*1000);
-  //   });
-  // }
-  // if (play) {
-  //   playInterval = setInterval(() => {
-  //     playSec++;
-  //     if (playSec === 0) { document.getElementById('play-bar').innerText = ''; }
-  //     if (playSec === 1) { document.getElementById('play-bar').innerText = '.'; }
-  //     if (playSec === 2) { document.getElementById('play-bar').innerText = '..'; }
-  //     if (playSec === 3) { document.getElementById('play-bar').innerText = '...'; }
-  //     if (playSec >= 3) {
-  //       playSec = 0;
-  //     }
-  //     loadBTC();
-  //   }, 200);
-  // } else {
-  //   if (playInterval) {
-  //     clearInterval(playInterval);
-  //     playInterval = null;
-  //   }
-  // }
 }
 
 function showInterval() {
@@ -359,15 +360,6 @@ function showInterval() {
 
 async function loadBTC() {
   await loadPrices();
-  // console.log('Loading BTC price...');
-  // showLoading(true);
-  // const btcUsdt = await getPrice('BTCUSDT');
-  // const el = document.getElementById('main-btc-usd');
-  // el.innerHTML = `1 BTC = <span class="usd-price">${num(btcUsdt, 10, 2)}</span> $`;
-  // document.getElementById('last-update').innerText = Intl.DateTimeFormat('en-ie', { dateStyle: 'medium', timeStyle: 'medium', timeZone: 'Europe/Brussels'}).format(new Date());
-  // document.title = `1 BTC = ${num(btcUsdt, 10, 2)} $`;
-  // // playSec = 0; document.getElementById('play-bar').innerText = `Every ${loadTime} seconds`;
-  // showLoading(false);
 }
 
 
