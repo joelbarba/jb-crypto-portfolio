@@ -1,6 +1,6 @@
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.27806646, // (1.02022840 + 1.25783806)  // trezor + bittrex
+  BTC:   2.33839892, // (1.02022840 + 1.31817052)  // trezor + bittrex
   ETH:   7.01267631, // (5.01914747 + 1.99352884)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
@@ -10,17 +10,20 @@ const holdings = {
   MATIC: 0, // 269.43030000,
   ADA:   0, // 551.14830000,
   SOL:   0, // 9.20079000,
+  XRP:   0, // 574.425,
+  LINK:  0,
+  INJ:   0, 
+
   MANA:  0, // 333.66600000,
   SAND:  0, // 308.6910000,
   ARB:   0, // 96.6033,
-  XRP:   0, // 574.425,
 };  
 
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-let totalInvested = 65000;
+let totalInvested = 67000;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
