@@ -14,9 +14,9 @@ const holdings = {
   LINK:  0,
   INJ:   0, 
 
-  MANA:  0, // 333.66600000,
-  SAND:  0, // 308.6910000,
-  ARB:   0, // 96.6033,
+  // MANA:  0, // 333.66600000,
+  // SAND:  0, // 308.6910000,
+  // ARB:   0, // 96.6033,
 };  
 
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
@@ -151,6 +151,9 @@ function checkCurrency(curr) {
   if (curr === 'eur' && !checkEur.checked && !checkUsd.checked) { checkUsd.checked = true; }
   // console.log('click', checkUsd.checked, checkEur.checked);
   Object.entries({ ...holdings, header: '' }).forEach(([key, val]) => {
+    if (!document.getElementById(key.toLowerCase() + '-usd-price')) {
+      console.log('OOOOOOPS');
+    }
     document.getElementById(key.toLowerCase() + '-usd-price').style.display = checkUsd.checked ? 'table-cell' : 'none';
     document.getElementById(key.toLowerCase() + '-eur-price').style.display = checkEur.checked ? 'table-cell' : 'none';
     document.getElementById(key.toLowerCase() + '-usd-total').style.display = checkUsd.checked ? 'table-cell' : 'none';
@@ -199,6 +202,9 @@ async function loadPrices() {
   console.log('----------------');
 
   async function fetchAlt(name, quantity) {
+    if (!document.getElementById(name.toLowerCase() + '-usd-price')) { 
+      console.log('oops');
+    }
     document.getElementById(name.toLowerCase() + '-usd-price').style.background = '#ffcb0070';
     const obj = { price: { usdt: 0, btc: 0, eur: 0 }, totals: { usd: 0, eur: 0, btc: 0 }};
     if (quantity > 0) {
@@ -209,7 +215,7 @@ async function loadPrices() {
     printCoin(name, quantity, obj);
     return obj;
   }
-  [data.ETH, data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.MANA, data.SAND, data.ARB, data.XRP] = await Promise.all([
+  [data.ETH, data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ] = await Promise.all([
     fetchAlt('ETH',   holdings.ETH),
     fetchAlt('ATOM',  holdings.ATOM),
     fetchAlt('ALGO',  holdings.ALGO),
@@ -217,10 +223,9 @@ async function loadPrices() {
     fetchAlt('MATIC', holdings.MATIC),
     fetchAlt('ADA',   holdings.ADA),
     fetchAlt('SOL',   holdings.SOL),
-    fetchAlt('MANA',  holdings.MANA),
-    fetchAlt('SAND',  holdings.SAND),
-    fetchAlt('ARB',   holdings.ARB),
-    fetchAlt('XRP',   holdings.ARB),
+    fetchAlt('XRP',   holdings.XRP),
+    fetchAlt('LINK',  holdings.LINK),
+    fetchAlt('INJ',   holdings.INJ),
   ]);
 
   calculateTotals();
@@ -259,10 +264,9 @@ function printValues() {
   printCoin('MATIC',holdings.MATIC, data.MATIC);
   printCoin('ADA',  holdings.ADA,   data.ADA);
   printCoin('SOL',  holdings.SOL,   data.SOL);
-  printCoin('MANA', holdings.MANA,  data.MANA);
-  printCoin('SAND', holdings.SAND,  data.SAND);
-  printCoin('ARB',  holdings.ARB,   data.ARB);
   printCoin('XRP',  holdings.XRP,   data.XRP);
+  printCoin('LINK', holdings.LINK,  data.LINK);
+  printCoin('INJ',  holdings.INJ,   data.INJ);
   printCoin('USDT', holdings.USDT,  data.USDT);
   printCoin('EUR',  holdings.EUR,   data.EUR);
 
@@ -299,6 +303,9 @@ function printCoin(coinName, val, obj) {
   const decimals = (coinName === 'BTC' || coinName === 'ETH') ? 2 : 6;
   const coinLC = coinName.toLowerCase();
   const pad5Coin = rPad(coinName.toUpperCase(), 6);
+  if (!document.getElementById(coinLC + '-holdings')) {
+    console.log('oops');
+  }
   document.getElementById(coinLC + '-holdings').innerHTML = `${pad(val)} ${pad5Coin}`;
   document.getElementById(coinLC + '-usd-price').innerHTML = ` 1 ${pad5Coin} = <span class="usd-price">${num(obj.price.usdt, 10, decimals)}</span> $`;
   document.getElementById(coinLC + '-eur-price').innerHTML = ` 1 ${pad5Coin} = <span class="eur-price">${num(obj.price.eur, 10, decimals)}</span> €`;
@@ -382,10 +389,9 @@ function copyToClipboard() {
   text += `MATIC\t${data.MATIC.price.usdt}\t${data.MATIC.price.eur}\n`;
   text += `ADA\t${data.ADA.price.usdt}\t${data.ADA.price.eur}\n`;
   text += `SOL\t${data.SOL.price.usdt}\t${data.SOL.price.eur}\n`;
-  text += `MANA\t${data.MANA.price.usdt}\t${data.MANA.price.eur}\n`;
-  text += `SAND\t${data.SAND.price.usdt}\t${data.SAND.price.eur}\n`;
-  text += `ARB\t${data.ARB.price.usdt}\t${data.ARB.price.eur}\n`;
   text += `XRP\t${data.XRP.price.usdt}\t${data.XRP.price.eur}\n`;
+  text += `LINK\t${data.LINK.price.usdt}\t${data.LINK.price.eur}\n`;
+  text += `INJ\t${data.INJ.price.usdt}\t${data.INJ.price.eur}\n`;
   text += `USDT\t${data.USDT.price.usdt}\t${data.USDT.price.eur}\n`;
   text += `EUR\t${data.EUR.price.usdt}\t${data.EUR.price.eur}\n`;
   navigator.clipboard.writeText(text);
