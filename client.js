@@ -110,32 +110,51 @@ document.addEventListener("wheel", (event) => {
 
 
 // Cold wallet check up
-const coldWalletBtn = document.getElementById('cold-wallet-btn');
-if (coldWalletBtn) { document.getElementById('cold-wallet-btn').addEventListener('click', () => loadColdWallet()); }
+// const coldWalletBtn = document.getElementById('cold-wallet-btn');
+// if (coldWalletBtn) { document.getElementById('cold-wallet-btn').addEventListener('click', () => loadColdWallet()); }
 function loadColdWallet() {
-  const cWlt = document.getElementById('cold-wallet-balance');
+  const cWlt1 = document.getElementById('cold-wallet-balance1');
   const cWltWarn = document.getElementById('cold-wallet-warning');
-  if (cWlt) {
-    coldWalletBtn.disabled = true;
-    // const address = `3Cs8YQDYuz2KGM27WTYCDHjdewT4c7KH2w`;
-    const address1 = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
-    const address2 = `bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9`;
-    Promise.all([
-      fetch(`https://blockchain.info/q/addressbalance/${address1}`).then(q => q.json()),
-      fetch(`https://blockchain.info/q/addressbalance/${address2}`).then(q => q.json()),
-    ]).then(([balance1, balance2]) => {
-        const balance = (balance1 + balance2) /100000000;
-        console.log('Cold Wallet Balance', balance);
-        console.log(`address1 ${address1} = ${balance1} BTC`);
-        console.log(`address1 ${address2} = ${balance2} BTC`);
-        if (balance1 + balance2 !== 102022840) { cWltWarn.style.display = 'block'; }
-        cWlt.innerHTML = `${balance}`;
-        coldWalletBtn.disabled = false;
 
-    }).catch(err => {
-      console.log('Could not load Blockchain API');
-    });
-  }
+  const address1 = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
+  const address2 = `bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9`;
+  const address3 = `14dMwyBgsRprxFYwqb2BUaq9aGpeZYGVch`; // non-segwit
+  const address4 = `0x876FA3a36289df2104A1A2384BEb88a028DB48d1`;  // eth
+
+  // curl https://blockchain.info/q/addressbalance/bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry
+  // curl https://blockchain.info/q/addressbalance/bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9
+  // curl https://blockchain.info/q/addressbalance/14dMwyBgsRprxFYwqb2BUaq9aGpeZYGVch
+  // curl https://api.ethplorer.io/getAddressInfo/0x876FA3a36289df2104A1A2384BEb88a028DB48d1?apiKey=freekey
+
+  Promise.all([
+    fetch(`https://blockchain.info/q/addressbalance/${address1}&cors=true`).then(q => q.json()),
+    fetch(`https://blockchain.info/q/addressbalance/${address2}&cors=true`).then(q => q.json()),
+    fetch(`https://blockchain.info/q/addressbalance/${address3}&cors=true`).then(q => q.json()),
+    ,
+  ]).then(([balance1, balance2, balance3]) => {
+      // const balance = (balance1 + balance2) /100000000;
+      console.log('Cold Wallet Balance', balance);
+      console.log(`address1 ${address1} = ${balance1} BTC`);
+      console.log(`address2 ${address2} = ${balance2} BTC`);
+      console.log(`address2 ${address3} = ${balance3} BTC`);
+      if (balance1 !== 52000000 || balance2 !== 50022840 || balance3 !== 142099393) { cWltWarn.style.display = 'block'; }
+      document.getElementById('cold-wallet-balance1').innerHTML = `${balance1 / 100000000}`;
+      document.getElementById('cold-wallet-balance2').innerHTML = `${balance2 / 100000000}`;
+      document.getElementById('cold-wallet-balance3').innerHTML = `${balance3 / 100000000}`;
+
+  }).catch(err => {
+    console.log('Could not load Blockchain API');
+  });
+
+  fetch(`https://api.ethplorer.io/getAddressInfo/${address4}?apiKey=freekey`).then(q => q.json()).then(ethRes => {
+    const balance = ethRes.ETH.balance;
+    console.log(`ETH address ${address4} = ${balance} ETH`);
+    if (balance !== 7.00967631) { cWltWarn.style.display = 'block'; }
+    document.getElementById('cold-wallet-balance4').innerHTML = `${balance}`;
+  }).catch(err => {
+    console.log('Could not load ETH Blockchain API');
+  });;
+
 }
 loadColdWallet();
 
