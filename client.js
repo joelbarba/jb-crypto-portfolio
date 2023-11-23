@@ -136,22 +136,23 @@ async function loadColdWallet() {
   const cwb3 = document.getElementById('cold-wallet-balance3');
   const cwb4 = document.getElementById('cold-wallet-balance4');
 
-  await fetch(`https://blockchain.info/q/addressbalance/${address1}&cors=true`).then(q => q.json()).then(balance => {
-    console.log(`address1 ${address1} = ${balance} BTC`);
-    cwb1.innerHTML = `${balance / 100000000}`;
-    if (balance !== balance1) { cWltWarn.style.display = 'block'; cwb1 += ` != ${balance1 / 100000000}`; }
+  function checkBalance(balance, correctBalance, htmlObj, address) {
+    console.log(`address ${address} = ${balance} BTC`);
+    htmlObj.innerHTML = `${balance / 100000000}`;
+    if (isNaN(balance)) { return; }
+    if (balance != correctBalance) { cWltWarn.style.display = 'block'; htmlObj += ` != ${correctBalance / 100000000}`; }
+  }
+
+  await fetch(`https://blockchain.info/q/addressbalance/${address1}`).then(q => q.json()).then(currentBalance => {
+    checkBalance(currentBalance, balance1, cwb1, address1);
   }).catch(err => console.log('Could not load Blockchain API'));
   
-  await fetch(`https://blockchain.info/q/addressbalance/${address2}&cors=true`).then(q => q.json()).then(balance => {
-    console.log(`address2 ${address2} = ${balance} BTC`);
-    cwb2.innerHTML = `${balance / 100000000}`;
-    if (balance !== balance2) { cWltWarn.style.display = 'block'; cwb2 += ` != ${balance2 / 100000000}`; }
+  await fetch(`https://blockchain.info/q/addressbalance/${address2}`).then(q => q.json()).then(currentBalance => {
+    checkBalance(currentBalance, balance2, cwb2, address2);
   }).catch(err => console.log('Could not load Blockchain API'));
   
-  await fetch(`https://blockchain.info/q/addressbalance/${address3}&cors=true`).then(q => q.json()).then(balance => {
-    console.log(`address3 ${address3} = ${balance} BTC`);
-    cwb3.innerHTML = `${balance / 100000000}`;
-    if (balance !== balance3) { cWltWarn.style.display = 'block'; cwb3 += ` != ${balance3 / 100000000}`; }
+  await fetch(`https://blockchain.info/q/addressbalance/${address3}`).then(q => q.json()).then(currentBalance => {
+    checkBalance(currentBalance, balance3, cwb3, address3);
   }).catch(err => console.log('Could not load Blockchain API'));
   
 
