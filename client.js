@@ -75,10 +75,10 @@ function selectCell(val) {
 document.addEventListener("wheel", (event) => {
   const wheelChange = event.deltaY > 0 ? 'down': 'up';
   // console.log('moving wheel', wheelChange);
-  let delta = wheelChange === 'up' ? 100.00 : -100.00;
+  let delta = wheelChange === 'up' ? 1000.00 : -1000.00;
 
   if (cellSel === 'btc-price') {
-    data.BTC.price.usdt = Math.floor((data.BTC.price.usdt + delta) / 100) * 100;
+    data.BTC.price.usdt = Math.floor((data.BTC.price.usdt + delta) / 1000) * 1000;
     data.BTC.price.eur =  Math.round(100 * data.BTC.price.usdt * data.USDT.price.eur) / 100;
     data.ETH.price.usdt = data.ETH.price.btc * data.BTC.price.usdt; 
     data.ETH.price.eur =  Math.round(100 * data.ETH.price.usdt * data.USDT.price.eur) / 100;
