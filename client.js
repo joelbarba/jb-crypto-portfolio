@@ -75,7 +75,7 @@ function selectCell(val) {
 document.addEventListener("wheel", (event) => {
   const wheelChange = event.deltaY > 0 ? 'down': 'up';
   // console.log('moving wheel', wheelChange);
-  let delta = wheelChange === 'up' ? 500.00 : -500.00;
+  let delta = wheelChange === 'up' ? 100.00 : -100.00;
 
   if (cellSel === 'btc-price') {
     data.BTC.price.usdt = Math.floor((data.BTC.price.usdt + delta) / 100) * 100;
