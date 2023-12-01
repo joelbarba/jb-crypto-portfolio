@@ -1,6 +1,6 @@
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.44152233, // (2.44122233 + 0.00000000)  // trezor + bittrex
+  BTC:   2.44122233, // (2.44122233 + 0.00000000)  // trezor + bittrex
   ETH:   7.00967631, // (7.00967631 + 0.00000000)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
