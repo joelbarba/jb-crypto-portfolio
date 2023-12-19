@@ -20,6 +20,7 @@ const holdings = {
   // ARB:   0, // 96.6033,
 };  
 
+const altCoins = () => ([data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ]);
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
 const data = {};
@@ -81,8 +82,12 @@ document.addEventListener("wheel", (event) => {
   if (cellSel === 'btc-price') {
     data.BTC.price.usdt = Math.floor((data.BTC.price.usdt + delta) / 1000) * 1000;
     data.BTC.price.eur =  Math.round(100 * data.BTC.price.usdt * data.USDT.price.eur) / 100;
-    data.ETH.price.usdt = data.ETH.price.btc * data.BTC.price.usdt; 
-    data.ETH.price.eur =  Math.round(100 * data.ETH.price.usdt * data.USDT.price.eur) / 100;
+    function projCoin(COIN) {
+      COIN.price.usdt = COIN.price.btc * data.BTC.price.usdt;
+      COIN.price.eur =  Math.round(100 * COIN.price.usdt * data.USDT.price.eur) / 100;
+    }
+    projCoin(data.ETH);
+    altCoins().forEach(coin => projCoin(coin));
     calculateTotals();
     printCoin('BTC',  holdings.BTC,  data.BTC);
     printCoin('USDT', holdings.USDT, data.USDT);
