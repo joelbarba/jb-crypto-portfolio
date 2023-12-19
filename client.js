@@ -410,18 +410,21 @@ function copyToClipboard() {
   // tag.select();
   // tag.setSelectionRange(0, 99999); // For mobile devices
   // navigator.clipboard.writeText(tag.value);
-  let text = `\tUSD\tEUR\n`;
-  text += `BTC\t${data.BTC.price.usdt}\t${data.BTC.price.eur}\n`;
-  text += `ETH\t${data.ETH.price.usdt}\t${data.ETH.price.eur}\n`;
-  text += `ATOM\t${data.ATOM.price.usdt}\t${data.ATOM.price.eur}\n`;
-  text += `ALGO\t${data.ALGO.price.usdt}\t${data.ALGO.price.eur}\n`;
-  text += `DOT\t${data.DOT.price.usdt}\t${data.DOT.price.eur}\n`;
-  text += `MATIC\t${data.MATIC.price.usdt}\t${data.MATIC.price.eur}\n`;
-  text += `ADA\t${data.ADA.price.usdt}\t${data.ADA.price.eur}\n`;
-  text += `SOL\t${data.SOL.price.usdt}\t${data.SOL.price.eur}\n`;
-  text += `XRP\t${data.XRP.price.usdt}\t${data.XRP.price.eur}\n`;
-  text += `LINK\t${data.LINK.price.usdt}\t${data.LINK.price.eur}\n`;
-  text += `INJ\t${data.INJ.price.usdt}\t${data.INJ.price.eur}\n`;
+  function printLine(COIN) {
+    return `\t${COIN.price.usdt}\t${COIN.price.eur}\t${COIN.price.btc}\t${COIN.totals.usd}\t${COIN.totals.eur}\t${COIN.totals.btc}\n`;
+  }
+  let text = `\tUSD\tEUR\tBTC\tUSD\tEUR\tBTC\n`;
+  text += 'BTC'  + printLine(data.BTC);
+  text += 'ETH'  + printLine(data.ETH);
+  text += 'ATOM' + printLine(data.ATOM);
+  text += 'ALGO' + printLine(data.ALGO);
+  text += 'DOT'  + printLine(data.DOT);
+  text += 'MATIC'+ printLine(data.MATIC);
+  text += 'ADA'  + printLine(data.ADA);
+  text += 'SOL'  + printLine(data.SOL);
+  text += 'XRP'  + printLine(data.XRP);
+  text += 'LINK' + printLine(data.LINK);
+  text += 'INJ'  + printLine(data.INJ);
   text += `USDT\t${data.USDT.price.usdt}\t${data.USDT.price.eur}\n`;
   text += `EUR\t${data.EUR.price.usdt}\t${data.EUR.price.eur}\n`;
   navigator.clipboard.writeText(text);
