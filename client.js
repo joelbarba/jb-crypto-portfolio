@@ -7,7 +7,7 @@ const holdings = {
   EUR:   0,
   ATOM:  49.05030507, // 26.27370000,   // Alts sold for 0.0623711 BTC
   ALGO:  0, // 1418.40200000,
-  DOT:   0, // 48.65130000,
+  DOT:   78.09, // 48.65130000,
   MATIC: 0, // 269.43030000,
   ADA:   0, // 551.14830000,
   SOL:   7.26, // 9.20079000,
@@ -25,7 +25,7 @@ const altCoins = () => ([data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, d
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-let totalInvested = 72000;
+let totalInvested = 72500;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
