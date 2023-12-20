@@ -5,27 +5,28 @@ const holdings = {
   ETH:   7.00967631, // (7.00967631 + 0.00000000)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
-  ATOM:  49.05030507, // 26.27370000,   // Alts sold for 0.0623711 BTC
-  ALGO:  0, // 1418.40200000,
-  DOT:   78.09, // 48.65130000,
-  MATIC: 0, // 269.43030000,
-  ADA:   0, // 551.14830000,
-  SOL:   7.26, // 9.20079000,
-  XRP:   879.10873954, // 574.425,
-  LINK:  0,
+  ATOM:  49.05030507,   // 26.27370000,   // Alts sold for 0.0623711 BTC
+  ALGO:  2723.885413,   // 1418.40200000,
+  DOT:   78.09,         // 48.65130000,
+  MATIC: 702.6170939,   // 269.43030000,
+  ADA:   923.9995149,   // 551.14830000,
+  SOL:   7.26,          // 9.20079000,
+  XRP:   879.10873954,  // 574.425,
+  LINK:  37.84194528,
   INJ:   16.12, 
+  AVAX:  12.85870458, 
 
   // MANA:  0, // 333.66600000,
   // SAND:  0, // 308.6910000,
   // ARB:   0, // 96.6033,
 };  
 
-const altCoins = () => ([data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ]);
+const altCoins = () => ([data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ, data.AVAX]);
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-let totalInvested = 72500;
+let totalInvested = 75000;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
@@ -250,7 +251,7 @@ async function loadPrices() {
     printCoin(name, quantity, obj);
     return obj;
   }
-  [data.ETH, data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ] = await Promise.all([
+  [data.ETH, data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ, data.AVAX] = await Promise.all([
     fetchAlt('ETH',   holdings.ETH),
     fetchAlt('ATOM',  holdings.ATOM),
     fetchAlt('ALGO',  holdings.ALGO),
@@ -261,6 +262,7 @@ async function loadPrices() {
     fetchAlt('XRP',   holdings.XRP),
     fetchAlt('LINK',  holdings.LINK),
     fetchAlt('INJ',   holdings.INJ),
+    fetchAlt('AVAX',  holdings.AVAX),
   ]);
 
   calculateTotals();
@@ -302,6 +304,7 @@ function printValues() {
   printCoin('XRP',  holdings.XRP,   data.XRP);
   printCoin('LINK', holdings.LINK,  data.LINK);
   printCoin('INJ',  holdings.INJ,   data.INJ);
+  printCoin('AVAX', holdings.AVAX,  data.AVAX);
   printCoin('USDT', holdings.USDT,  data.USDT);
   printCoin('EUR',  holdings.EUR,   data.EUR);
 
@@ -430,6 +433,7 @@ function copyToClipboard() {
   text += 'XRP'  + printLine(data.XRP);
   text += 'LINK' + printLine(data.LINK);
   text += 'INJ'  + printLine(data.INJ);
+  text += 'AVAX' + printLine(data.AVAX);
   text += `USDT\t${data.USDT.price.usdt}\t${data.USDT.price.eur}\n`;
   text += `EUR\t${data.EUR.price.usdt}\t${data.EUR.price.eur}\n`;
   navigator.clipboard.writeText(text);
