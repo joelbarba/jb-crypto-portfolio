@@ -21,6 +21,10 @@ const holdings = {
   // ARB:   0, // 96.6033,
 };  
 
+
+
+
+
 const altCoins = () => ([data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, data.SOL, data.XRP, data.LINK, data.INJ, data.AVAX]);
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
@@ -469,25 +473,27 @@ function rPad(number, width = 10, placeholder = '‎ ') {
   return n.length >= width ? n : n + (new Array(width - n.length + 1).join(placeholder));
 }
 
-let urlType = 'binance';
-// let urlType = 'fake';
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
   try {
-    if (urlType === 'proxy') { // Going through Binance proxy
-      res = await fetch(`api/price?symbol=${symbol}`).then(r => r.json());
+    const bitstampAlts = ['ALGOUSDT','DOTUSDT','MATICUSDT','ADAUSDT','SOLUSDT','XRPUSDT','LINKUSDT','INJUSDT','AVAXUSDT'];
+    if (bitstampAlts.indexOf(symbol) >= 0) {
+      res = await fetch(`https://www.bitstamp.net/api/v2/ticker/${symbol.slice(0, -1).toLowerCase()}`).then(r => r.json());
+      return Number.parseFloat(res.last);
     }
-    if (urlType === 'fake') { // Fake endpoint
-      res = await fetch(`api/fake-price?symbol=${symbol}`).then(r => r.json());    
-    }
-    if (urlType === 'binance') { // Direct Binance API
-      res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`).then(r => r.json());
-    }  
-    return Number.parseFloat(res.price);    
+
+    res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`).then(r => r.json());
+    return Number.parseFloat(res.price);
+
   } catch(err) {
     console.log(err);
   }
 }
+
+// https://www.bitstamp.net/api/v2/currencies/
+// https://www.bitstamp.net/api/v2/eur_usd/
+// https://www.bitstamp.net/api/v2/ticker/btcusdt
+
 
 loadPrices();
 changePlay(false);
