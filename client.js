@@ -476,11 +476,11 @@ function rPad(number, width = 10, placeholder = '‎ ') {
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
   try {
-    const bitstampAlts = ['ALGOUSDT','DOTUSDT','MATICUSDT','ADAUSDT','SOLUSDT','XRPUSDT','LINKUSDT','INJUSDT','AVAXUSDT'];
-    if (bitstampAlts.indexOf(symbol) >= 0) {
-      res = await fetch(`https://www.bitstamp.net/api/v2/ticker/${symbol.slice(0, -1).toLowerCase()}`).then(r => r.json());
-      return Number.parseFloat(res.last);
-    }
+    // const bitstampAlts = ['ALGOUSDT','DOTUSDT','MATICUSDT','ADAUSDT','SOLUSDT','XRPUSDT','LINKUSDT','INJUSDT','AVAXUSDT'];
+    // if (bitstampAlts.indexOf(symbol) >= 0) {
+    //   res = await fetch(`https://www.bitstamp.net/api/v2/ticker/${symbol.slice(0, -1).toLowerCase()}`).then(r => r.json());
+    //   return Number.parseFloat(res.last);
+    // }
 
     res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`).then(r => r.json());
     return Number.parseFloat(res.price);
