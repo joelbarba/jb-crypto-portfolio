@@ -347,12 +347,15 @@ function printCoin(coinName, val, obj) {
   const pad5Coin = rPad(coinName.toUpperCase(), 6);
   if (!document.getElementById(coinLC + '-holdings')) {
     console.log('oops');
-  }
+  }  
   document.getElementById(coinLC + '-holdings').innerHTML = `${pad(val)} ${pad5Coin}`;
   document.getElementById(coinLC + '-usd-price').innerHTML = ` 1 ${pad5Coin} = <span class="usd-price">${num(obj.price.usdt, 10, decimals)}</span> $`;
   document.getElementById(coinLC + '-eur-price').innerHTML = ` 1 ${pad5Coin} = <span class="eur-price">${num(obj.price.eur, 10, decimals)}</span> €`;
   document.getElementById(coinLC + '-usd-total').innerHTML = `<span class="usd-total">${num(obj.totals.usd)}</span> $`;
   document.getElementById(coinLC + '-eur-total').innerHTML = `<span class="eur-total">${num(obj.totals.eur)}</span> €`;
+  const totalInBtcEl = document.getElementById(coinLC + '-btc-total');
+  if (totalInBtcEl) { totalInBtcEl.innerHTML = `${num(obj.totals.btc, 1, 4)} btc`; }
+  // if (totalInBtcEl) { totalInBtcEl.innerHTML = `${num(Math.round(obj.totals.btc * 10000) / 10000, 16, 12)}`; }
 
   if (coinName === 'USDT') { document.getElementById(coinLC + '-usd-price').innerHTML = ` 1 ${pad5Coin} = ${pad(1)} $`; }
   if (coinName === 'EUR')  { document.getElementById(coinLC + '-eur-price').innerHTML = ` 1 ${pad5Coin} = ${pad(1)} €`; }
