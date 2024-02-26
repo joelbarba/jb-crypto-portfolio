@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.44122233, // (2.44122233 + 0.00000000)  // trezor + bittrex
+  BTC:   2.50214554, // (2.44122233 + 0.06092321)  // trezor + bitstamp
   ETH:   7.00967631, // (7.00967631 + 0.00000000)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
@@ -10,7 +10,7 @@ const holdings = {
   DOT:   78.09,         // 48.65130000,
   MATIC: 702.6170939,   // 269.43030000,
   ADA:   923.9995149,   // 551.14830000,
-  SOL:   7.26,          // 9.20079000,
+  SOL:   27.49,         // 9.20079000,
   XRP:   879.10873954,  // 574.425,
   LINK:  37.84194528,
   INJ:   16.12, 
@@ -30,7 +30,7 @@ const altCoins = () => ([data.ATOM, data.ALGO, data.DOT, data.MATIC, data.ADA, d
 
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
-let totalInvested = 75000;
+let totalInvested = 80000;
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
