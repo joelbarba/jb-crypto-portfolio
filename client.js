@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.50214554, // (2.44122233 + 0.06092321)  // trezor + bitstamp
+  BTC:   2.50164554, // (2.50164554 + 0.00000000)  // trezor + bitstamp
   ETH:   7.00967631, // (7.00967631 + 0.00000000)  // trezor + bittrex
   USDT:  0,
   EUR:   0,
@@ -131,11 +131,13 @@ async function loadColdWallet() {
   const address2 = `bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9`;
   const address3 = `14dMwyBgsRprxFYwqb2BUaq9aGpeZYGVch`; // non-segwit
   const address4 = `0x876FA3a36289df2104A1A2384BEb88a028DB48d1`;  // eth
+  const address5 = `bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm`;
 
   const balance1 = 52000000;
   const balance2 = 50022840;
   const balance3 = 142099393;
   const balance4 = 7.00967631;
+  const balance5 = 6042321;
 
   // curl https://blockchain.info/q/addressbalance/bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry
   // curl https://blockchain.info/q/addressbalance/bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9
@@ -146,6 +148,7 @@ async function loadColdWallet() {
   const cwb2 = document.getElementById('cold-wallet-balance2');
   const cwb3 = document.getElementById('cold-wallet-balance3');
   const cwb4 = document.getElementById('cold-wallet-balance4');
+  const cwb5 = document.getElementById('cold-wallet-balance5');
 
   function checkBalance(balance, correctBalance, htmlObj, address) {
     console.log(`address ${address} = ${balance} BTC`);
@@ -164,6 +167,10 @@ async function loadColdWallet() {
   
   await fetch(`https://blockchain.info/q/addressbalance/${address3}`).then(q => q.json()).then(currentBalance => {
     checkBalance(currentBalance, balance3, cwb3, address3);
+  }).catch(err => console.log('Could not load Blockchain API'));
+  
+  await fetch(`https://blockchain.info/q/addressbalance/${address5}`).then(q => q.json()).then(currentBalance => {
+    checkBalance(currentBalance, balance5, cwb5, address5);
   }).catch(err => console.log('Could not load Blockchain API'));
   
 
