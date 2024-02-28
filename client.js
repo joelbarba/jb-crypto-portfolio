@@ -127,22 +127,17 @@ async function loadColdWallet() {
   const cWlt1 = document.getElementById('cold-wallet-balance1');
   const cWltWarn = document.getElementById('cold-wallet-warning');
 
-  const address1 = `bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry`;
-  const address2 = `bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9`;
-  const address3 = `14dMwyBgsRprxFYwqb2BUaq9aGpeZYGVch`; // non-segwit
-  const address4 = `0x876FA3a36289df2104A1A2384BEb88a028DB48d1`;  // eth
-  const address5 = `bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm`;
+  const address1 = `bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm`;  // JB Tzr W
+  const address2 = `bc1qglywrx3l09p7pauqedwa94q66th3fh4lg0yrjk`;  // JB Tzr W
+  const address3 = `0x70f47dD6D1b58033Ad18f436A8fC1531904749D7`;  // eth
 
-  const balance1 = 52000000;
-  const balance2 = 50022840;
-  const balance3 = 142099393;
-  const balance4 = 7.00967631;
-  const balance5 = 6042321;
+  const balance1 = 211142005;
+  const balance2 =  38998026;
+  const balance3 = 7.00768131;
 
-  // curl https://blockchain.info/q/addressbalance/bc1qfvddqmqr5rnq4tqvyxurs79stje0ugpuzvn5ry
-  // curl https://blockchain.info/q/addressbalance/bc1qwsmymemk33gwuawrl2df8h5euhu2hxylhy72d9
-  // curl https://blockchain.info/q/addressbalance/14dMwyBgsRprxFYwqb2BUaq9aGpeZYGVch
-  // curl https://api.ethplorer.io/getAddressInfo/0x876FA3a36289df2104A1A2384BEb88a028DB48d1?apiKey=freekey
+  // curl https://blockchain.info/q/addressbalance/bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm
+  // curl https://blockchain.info/q/addressbalance/bc1qglywrx3l09p7pauqedwa94q66th3fh4lg0yrjk
+  // curl https://api.ethplorer.io/getAddressInfo/0x70f47dD6D1b58033Ad18f436A8fC1531904749D7?apiKey=freekey
 
   const cwb1 = document.getElementById('cold-wallet-balance1');
   const cwb2 = document.getElementById('cold-wallet-balance2');
@@ -165,20 +160,11 @@ async function loadColdWallet() {
     checkBalance(currentBalance, balance2, cwb2, address2);
   }).catch(err => console.log('Could not load Blockchain API'));
   
-  await fetch(`https://blockchain.info/q/addressbalance/${address3}`).then(q => q.json()).then(currentBalance => {
-    checkBalance(currentBalance, balance3, cwb3, address3);
-  }).catch(err => console.log('Could not load Blockchain API'));
-  
-  await fetch(`https://blockchain.info/q/addressbalance/${address5}`).then(q => q.json()).then(currentBalance => {
-    checkBalance(currentBalance, balance5, cwb5, address5);
-  }).catch(err => console.log('Could not load Blockchain API'));
-  
-
-  fetch(`https://api.ethplorer.io/getAddressInfo/${address4}?apiKey=freekey`).then(q => q.json()).then(ethRes => {
+  fetch(`https://api.ethplorer.io/getAddressInfo/${address3}?apiKey=freekey`).then(q => q.json()).then(ethRes => {
     const balance = ethRes.ETH.balance;
-    console.log(`ETH address ${address4} = ${balance} ETH`);
-    cwb4.innerHTML = `${balance}`;
-    if (balance !== balance4) { cWltWarn.style.display = 'block'; cwb4.innerHTML += ` != ${balance4}`; }
+    console.log(`ETH address ${address3} = ${balance} ETH`);
+    cwb3.innerHTML = `${balance}`;
+    if (balance !== balance3) { cWltWarn.style.display = 'block'; cwb4.innerHTML += ` != ${balance3}`; }
   }).catch(err => {
     console.log('Could not load ETH Blockchain API');
   });
