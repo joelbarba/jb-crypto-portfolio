@@ -1,6 +1,5 @@
 html { background: black; color: aliceblue; font-size: 16px; font-family: monospace; }
 
-
 .main-table {
   text-align: right;
 }
@@ -12,6 +11,7 @@ td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
 /*  min-width: 100px;*/
 /*}*/
 
+.usd-realtime-price { color: #f8ff14; }
 .usd-price { color: #6dffe5; }
 .eur-price { color: #6dd6ff; }
 .totals-eur { color: yellow; }

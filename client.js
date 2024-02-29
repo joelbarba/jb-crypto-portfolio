@@ -58,6 +58,54 @@ const clock1 = document.getElementById('clock1');
 const clock2 = document.getElementById('clock2');
 
 
+// Real time websocket price update
+let realTime = false;
+let realTimeIntervalId;
+let ws;
+
+const btcLabel = document.getElementById('btc-realtime');
+const btnWSS = document.getElementById('btn-connect-wss');
+if (btnWSS) {
+  btnWSS.addEventListener('click', () => {
+    if (!realTime) { // Turning On
+      if (ws) { ws.close(); }
+      ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@aggTrade');
+      btnWSS.disabled = true;
+
+      let msg;
+      realTimeIntervalId = setInterval(function() {
+        if (!msg) return;
+        const value = num(JSON.parse(msg).p, 10, 2);
+        document.title = `BTC = ${value} $`;
+        btcLabel.innerHTML = `--> <span class="usd-realtime-price">${value}</span> $`;
+      }, 100);
+
+      ws.onmessage = function(e) { msg = e.data; };
+      ws.onopen = function() {
+        console.log('WebSocket Open');
+        btnWSS.disabled = false; 
+        btnWSS.innerHTML = '⏸';
+        btcLabel.style.display = 'inline';
+        realTime = true;
+      }
+      ws.onclose = function() {
+        console.log('WebSocket Closed');
+        btnWSS.innerHTML = '▶';
+        btcLabel.style.display = 'none';
+        btnWSS.disabled = false;
+        ws = null;
+      }
+
+    } else { // Turning Off
+      if (realTimeIntervalId) { clearInterval(realTimeIntervalId); intervalRef = null; }
+      if (ws) { ws.close(); btnWSS.disabled = true; }
+      realTime = false;
+    }
+  });
+}
+
+
+
 // -------- Projections System ------------------------
 document.getElementById('eur-invested').value = totalInvested;
 document.getElementById('eur-invested').addEventListener("input", ev => {
