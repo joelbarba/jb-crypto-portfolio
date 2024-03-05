@@ -1,8 +1,8 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.50164554, // (2.50164554 + 0.00000000)  // trezor + bitstamp
-  ETH:   7.00967631, // (7.00967631 + 0.00000000)  // trezor + bittrex
+  BTC:   2.50131148, // trezor
+  ETH:   7.00768131, // trezor
   USDT:  0,
   EUR:   0,
   ATOM:  49.05030507,   // 26.27370000,   // Alts sold for 0.0623711 BTC
@@ -91,7 +91,7 @@ if (btnWSS) {
       ws.onclose = function() {
         console.log('WebSocket Closed');
         btnWSS.innerHTML = '▶';
-        btcLabel.style.display = 'none';
+        //btcLabel.style.display = 'none';
         btnWSS.disabled = false;
         ws = null;
       }
