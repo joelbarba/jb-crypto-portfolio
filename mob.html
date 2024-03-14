@@ -20,7 +20,7 @@
 <button style="display: none;" id="btn-interv-up">+</button>
 <span style="display: none; margin-left: 20px;">Last Update: <span id="last-update"></span></span>
 
-<table class="main-table" style="margin-top: 20px;">
+<table class="main-table" id="main-table" style="margin-top: 20px;">
   <tr class="row-header">
     <th id="header-holdings">Holdings</th>
     <th id="header-usd-price">Price ($)</th>
@@ -28,7 +28,7 @@
     <th id="header-usd-total">Total (usd)</th>
     <th id="header-eur-total">Total (eur)</th>
   </tr>
-  <tr class="row-btc">
+  <!-- <tr class="row-btc">
     <td id="btc-holdings">1.28731828 btc</td>
     <td id="btc-usd-price">1 BTC   =  29,765.16 $</td>
     <td id="btc-eur-price">1 BTC   =  27,261.08 €</td>
@@ -41,76 +41,6 @@
     <td id="eth-eur-price">1 ETH   =  27,261.08 €</td>
     <td id="eth-usd-total">42,395.72 $</td>
     <td id="eth-eur-total">38,829.06 €</td>
-  </tr>
-  <tr class="row-atom">
-    <td id="atom-holdings">...</td>
-    <td id="atom-usd-price">...</td>
-    <td id="atom-eur-price">...</td>
-    <td id="atom-usd-total">...</td>
-    <td id="atom-eur-total">...</td>
-  </tr>
-  <tr class="row-algo">
-    <td id="algo-holdings">...</td>
-    <td id="algo-usd-price">...</td>
-    <td id="algo-eur-price">...</td>
-    <td id="algo-usd-total">...</td>
-    <td id="algo-eur-total">...</td>
-  </tr>
-  <tr class="row-dot">
-    <td id="dot-holdings">...</td>
-    <td id="dot-usd-price">...</td>
-    <td id="dot-eur-price">...</td>
-    <td id="dot-usd-total">...</td>
-    <td id="dot-eur-total">...</td>
-  </tr>
-  <tr class="row-matic">
-    <td id="matic-holdings">...</td>
-    <td id="matic-usd-price">...</td>
-    <td id="matic-eur-price">...</td>
-    <td id="matic-usd-total">...</td>
-    <td id="matic-eur-total">...</td>
-  </tr>
-  <tr class="row-ada">
-    <td id="ada-holdings">...</td>
-    <td id="ada-usd-price">...</td>
-    <td id="ada-eur-price">...</td>
-    <td id="ada-usd-total">...</td>
-    <td id="ada-eur-total">...</td>
-  </tr>
-  <tr class="row-sol">
-    <td id="sol-holdings">...</td>
-    <td id="sol-usd-price">...</td>
-    <td id="sol-eur-price">...</td>
-    <td id="sol-usd-total">...</td>
-    <td id="sol-eur-total">...</td>
-  </tr>
-  <tr class="row-xrp">
-    <td id="xrp-holdings">...</td>
-    <td id="xrp-usd-price">...</td>
-    <td id="xrp-eur-price">...</td>
-    <td id="xrp-usd-total">...</td>
-    <td id="xrp-eur-total">...</td>
-  </tr>
-  <tr class="row-link">
-    <td id="link-holdings">...</td>
-    <td id="link-usd-price">...</td>
-    <td id="link-eur-price">...</td>
-    <td id="link-usd-total">...</td>
-    <td id="link-eur-total">...</td>
-  </tr>
-  <tr class="row-inj">
-    <td id="inj-holdings">...</td>
-    <td id="inj-usd-price">...</td>
-    <td id="inj-eur-price">...</td>
-    <td id="inj-usd-total">...</td>
-    <td id="inj-eur-total">...</td>
-  </tr>
-  <tr class="row-avax">
-    <td id="avax-holdings">...</td>
-    <td id="avax-usd-price">...</td>
-    <td id="avax-eur-price">...</td>
-    <td id="avax-usd-total">...</td>
-    <td id="avax-eur-total">...</td>
   </tr>
   <tr class="row-usdt">
     <td id="usdt-holdings">...</td>
@@ -125,26 +55,35 @@
     <td id="eur-eur-price">...</td>
     <td id="eur-usd-total">...</td>
     <td id="eur-eur-total">...</td>
-  </tr>
-  <tr id="separator-row" ><td colspan="5"></td></tr>
+  </tr> -->
+  <tr id="separator-row" ><td colspan="3"></td></tr>
   <tr class="row-totals">
     <td id="totals-holdings">TOTALS</td>
-    <td id="totals-btc" colspan="2" style="text-align: left">...</td>
+    <td id="totals-btc" colspan="4" style="text-align: left">...</td>
     <td id="totals-usd-total">...</td>
     <td id="totals-eur-total">...</td>
   </tr>
-  <tr class="row-profit">
-    <td id="profit-pad" colspan="4" style="border: none"></td>
-    <td id="totals-profit">...</td>
-  </tr>  
+
   <tr class="row-profit2">
-    <td id="profit-pad2" style="border: none">Tax:</td>
+    <td id="profit-pad2" colspan="1" style="border: none">Tax:</td>
     <td id="totals-taxes" style="color: darkred">...</td>
+    <td id="totals-after-taxes">...</td>
+  </tr>
+  <tr class="row-profit">
+    <td id="profit-pad" colspan="2" style="border: none">Net:</td>
+    <td id="totals-profit">...</td>
+  </tr>
+  <tr class="row-profit3">
+    <td id="profit-pad2" colspan="2" style="border: none">Net after tax:</td>
     <td id="totals-profit-after-taxes" style="color: green">...</td>
   </tr>
+
 </table>
 
-<div style="margin: 15px 0px;">
+<button id="load-all-alts" style="position: absolute; padding: 10px 30px; margin-top: -40px; font-size: 20px;">Load All Altcoins</button>
+<p id="hidden-inv-msg" style="position: absolute; margin: 20px 0 0 0; color: red;">* There are hidden investments</p>
+
+<div style="margin: 60px 0px;">
   Cold Wallet:<br/>
 
   <a href="https://btc1.trezor.io/address/bc1qykluy9ph2j74h65685ly3vq5gxje8evd5hyf66" target="_blank" style="color: yellow;">bc1qyk...hyf66</a> : <span id="cold-wallet-balance1" style="color: #5aff0a;"></span><span> BTC</span><br/>

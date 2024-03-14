@@ -40,3 +40,16 @@ td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
 
 .totals-profit.pos { color: lime; }
 .totals-profit.neg { color: red; }
+
+tr.invisible { display: none; }
+
+.small-table td {
+  padding: 2px 20px;
+  font-size: 14px;  
+}
+.profit-cell {
+  border: none;
+  text-align: left;
+}
+.profit-cell.profit-red { color: darkred; }
+.profit-cell.profit-green { color: green; }
