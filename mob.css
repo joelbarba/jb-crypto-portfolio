@@ -59,6 +59,7 @@ td.coin-btc-total { display:none; }
 .profit-cell {
   border: none;
   text-align: left;
+  display: none;
 }
 .profit-cell.profit-red { color: darkred; }
 .profit-cell.profit-green { color: green; }
