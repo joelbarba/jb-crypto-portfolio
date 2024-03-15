@@ -93,8 +93,9 @@ let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v
 // localStorage.setItem('totalInvested', totalInvested);
 
 // Altcoins to lazy load (not displayed initially)
-const invisibleRows = ['RNDR','KAS','ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA','MINA','AAVE','OP'];
 
+const invisibleRows = ['ALGO','DOT','MATIC','ADA','XRP','LINK','INJ','AVAX','IMX','HBAR','RNDR','KAS',
+'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA','MINA','AAVE','OP'];
 
 // <tr class="row-imx">
 //   <td id="imx-holdings">...</td>
@@ -410,6 +411,7 @@ async function loadPrices() {
 
   async function fetchAlt(name, quantity) {
     const obj = { price: { usdt: 0, btc: 0, eur: 0 }, totals: { usd: 0, eur: 0, btc: 0 }};
+    data[name] = obj;
 
     if (!showAll && invisibleRows.indexOf(name) >= 0)  { return obj; }
 
@@ -424,44 +426,10 @@ async function loadPrices() {
       obj.price.eur = Math.round(obj.price.btc * btcEur * 1000000) / 1000000;
     }
     printCoin(name, quantity, obj);
-    return obj;
+    // return obj;
   }
 
-  [data.ETH,
-   data.SOL,
-   data.ALGO,
-   data.DOT,
-   data.MATIC,
-   data.ADA,
-   data.XRP,
-   data.LINK,
-   data.INJ,
-   data.AVAX,
-   data.IMX,
-   data.HBAR,
-   data.RNDR,
-   data.KAS,
-   data.ATOM,
-   data.ICP,
-   data.TRX,
-   data.ENS,
-   data.GRT,
-   data.NEAR,
-   data.FIL,
-   data.ARB,
-   data.FET,
-   data.SUI,
-   data.JUP,
-   data.PYTH,
-   data.CFG,
-   data.XTZ,
-   data.BONK,
-   data.DYM,
-   data.TIA,
-   data.MINA,
-   data.AAVE,
-   data.OP,
-   ] = await Promise.all([
+  await Promise.all([
     fetchAlt('ETH',   holdings.ETH),
     fetchAlt('SOL',   holdings.SOL),
     fetchAlt('ALGO',  holdings.ALGO),
@@ -528,7 +496,7 @@ function calculateTotals() {
 }
 
 function printValues() {
-  printCoin('BTC',  holdings.BTC,   data.BTC);
+  printCoin('BTC',   holdings.BTC,    data.BTC);
   printCoin('ETH',   holdings.ETH,    data.ETH);
   printCoin('SOL',   holdings.SOL,    data.SOL);
   printCoin('ALGO',  holdings.ALGO,   data.ALGO);
@@ -563,8 +531,8 @@ function printValues() {
   printCoin('MINA',  holdings.MINA,   data.MINA);
   printCoin('AAVE',  holdings.AAVE,   data.AAVE);
   printCoin('OP',    holdings.OP,     data.OP);
-  printCoin('USDT', holdings.USDT,  data.USDT);
-  printCoin('EUR',  holdings.EUR,   data.EUR);
+  printCoin('USDT',  holdings.USDT,   data.USDT);
+  printCoin('EUR',   holdings.EUR,    data.EUR);
 
   let hiddenInvestment = 0;
   if (!showAll) {
