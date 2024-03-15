@@ -47,9 +47,13 @@ tr.invisible { display: none; }
   padding: 2px 20px;
   font-size: 14px;  
 }
+
 .profit-cell {
   border: none;
-  text-align: left;
+  display: none;
+  /*  text-align: left;*/
 }
-.profit-cell.profit-red { color: darkred; }
-.profit-cell.profit-green { color: green; }
+
+.table-with-profits .profit-cell { display: table-cell; }
+.profit-cell.profit-red { color: #c30000; }
+.profit-cell.profit-green { color: #00b900; }

@@ -3,6 +3,7 @@ html { background: black; color: aliceblue; font-size: 26px; font-family: monosp
 
 .main-table {
   text-align: right;
+  font-size: 24px;
 }
 .row-header { background: #424242; }
 th { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }

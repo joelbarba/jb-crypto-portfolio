@@ -162,6 +162,7 @@ document.getElementById('btn-interv-up').addEventListener('click', () => {
 document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC());
 // document.getElementById('btn-clear-storage').addEventListener('click', () => localStorage.clear());
 
+document.getElementById('header-profits')?.addEventListener('click', () => mainTable.classList.add('table-with-profits'));
 
 const clock1 = document.getElementById('clock1');
 const clock2 = document.getElementById('clock2');
