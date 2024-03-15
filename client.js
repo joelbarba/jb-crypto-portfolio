@@ -421,9 +421,7 @@ async function loadPrices() {
       document.getElementById(name.toLowerCase() + '-usd-price').style.background = '#ffcb0070';
     }
     if (quantity > 0) {
-      obj.price.usdt = await getPrice(name + 'USDT');
-      obj.price.btc = await getPrice(name + 'BTC');   // 1 algo = 0.00001141 btc  => 1 btc = 20900 eur
-      obj.price.eur = Math.round(obj.price.btc * btcEur * 1000000) / 1000000;
+      obj.price = await getAltPrice(name, btcEur); // Access price on CoinGecko
     }
     printCoin(name, quantity, obj);
     // return obj;
@@ -776,6 +774,69 @@ async function getPrice(symbol) {
 
   } catch(err) {
     console.error(symbol);
+  }
+}
+async function getAltPrice(coinName, btcEur) {
+  const coinIds = {
+    ETH   : 'ethereum',
+    SOL   : 'solana',
+    ALGO  : 'algorand',
+    DOT   : 'polkadot',
+    MATIC : 'matic-network',
+    ADA   : 'cardano',
+    XRP   : 'ripple',
+    LINK  : 'chainlink',
+    INJ   : 'injective-protocol',
+    AVAX  : 'avalanche-2',
+    IMX   : 'immutable-x',
+    HBAR  : 'hedera-hashgraph',
+    RNDR  : 'render-token',
+    KAS   : 'kaspa',
+    ATOM  : 'cosmos',
+    ICP   : 'internet-computer',
+    TRX   : 'tron',
+    ENS   : 'ethereum-name-service',
+    GRT   : 'the-graph',
+    NEAR  : 'near',
+    FIL   : 'filecoin',
+    ARB   : 'arbitrum',
+    FET   : 'fetch-ai',
+    SUI   : 'sui',
+    JUP   : 'jupiter-exchange-solana',
+    PYTH  : 'pyth-network',
+    CFG   : 'centrifuge',
+    XTZ   : 'tezos',
+    BONK  : 'bonk',
+    DYM   : 'dymension',
+    TIA   : 'tia',
+    MINA  : 'mina-protocol',
+    AAVE  : 'aave',
+    OP    : 'optimism',
+  };
+
+  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP']; // these are not listed in Binance, so get em from coin gecko
+  if (nonListed.indexOf(coinName) > 0) {
+    console.log(`Getting ${coinName} from coingecko...`);
+    const coinId = coinIds[coinName];
+    // curl "https://api.coingecko.com/api/v3/simple/price?ids=kaspa&vs_currencies=eur,usd,btc"  -H 'accept: application/json'
+    // curl "https://api.coingecko.com/api/v3/simple/price?ids=centrifuge&vs_currencies=eur,usd,btc"  -H 'accept: application/json'
+    // curl "https://api.coingecko.com/api/v3/simple/price?ids=bonk&vs_currencies=eur,usd,btc"  -H 'accept: application/json'
+    // curl "https://api.coingecko.com/api/v3/simple/price?ids=jupiter&vs_currencies=eur,usd,btc"  -H 'accept: application/json'
+
+    try {
+      res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=eur,usd,btc`).then(r => r.json());
+      // res = {"kaspa":{"eur":166.52,"usd":181.24,"btc":0.0026621}}
+
+      const price = res[coinId];
+      return { usdt: price.usd, eur: price.eur, btc: price.btc };
+
+    } catch(err) { console.error(symbol); }
+
+  } else { // Get them from Binance
+    const usdt = await getPrice(coinName + 'USDT');
+    const btc = await getPrice(coinName + 'BTC');   // 1 algo = 0.00001141 btc  => 1 btc = 20900 eur
+    const eur = Math.round(btc * btcEur * 1000000) / 1000000;
+    return { usdt, btc, eur };
   }
 }
 
