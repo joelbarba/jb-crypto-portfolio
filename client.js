@@ -3,39 +3,40 @@
 const holdings = {
   BTC:   2.50154806, // (2.50131148 trezor + 0.00023658 phoenix)
   ETH:   7.00779553, // (7.00768131 trezor + 0.00011422 metamask)
-  SOL:   27.49,         // Bitstamp
-  ALGO:  2723.885413,   // Bitstamp
-  DOT:   78.09,         // Bitstamp
-  MATIC: 702.6170939,   // Bitstamp
-  ADA:   923.9995149,   // Bitstamp
-  XRP:   879.10873954,  // Bitstamp
-  LINK:  37.84194528,   // Bitstamp
-  INJ:   16.12,         // Bitstamp
-  AVAX:  12.85870458,   // Bitstamp
-  IMX:   164.52,        // Bitstamp
-  HBAR:  4086.64314034, // Bitstamp
-  RNDR:  56.91,         // Bitstamp
-  KAS:   3415.34759,    // ByBit
-  ATOM:  49.05030507,   // Kraken
-  ICP:   37.20539115,   // Kraken
-  TRX:   3973.23628,    // Kraken
-  ENS:   8.69565217,    // Kraken
-  GRT:   622.6068549,   // Kraken
-  NEAR:  39.13128546,   // Kraken
-  FIL:   22.34636872,   // Kraken
-  ARB:   102.24426,     // Kraken
-  FET:   83.20159747,   // Kraken
-  SUI:   143.15368,     // Kraken
-  JUP:   146.33147,     // Kraken
-  PYTH:  165.03012,     // Kraken
-  CFG:   147.6232654,   // Kraken
-  XTZ:   76.28253242,   // Kraken
-  BONK:  3751782.1,     // Kraken
-  DYM:   15.90963,      // Kraken
-  TIA:   6.72454,       // Kraken
-  MINA:  82.44023083,   // Kraken
-  AAVE:  0.85019554,    // Kraken
-  OP:    45.30484,      // Kraken
+  SOL:   27.49,
+  ALGO:  2725.58307434,
+  DOT:   78.09,
+  MATIC: 702.6170939,
+  ADA:   923.9995149,
+  XRP:   718.4404566,
+  LINK:  37.84194528,
+  INJ:   16.12,
+  AVAX:  12.85870458,
+  IMX:   164.52,
+  HBAR:  4086.64314034,
+  RNDR:  56.91,
+  KAS:   3415.34759,
+  ATOM:  49.05030507,
+  ICP:   37.20539115,
+  TRX:   3973.23628,
+  ENS:   8.69565217,
+  GRT:   622.6068549,
+  NEAR:  39.13128546,
+  FIL:   22.34636872,
+  ARB:   102.24426,
+  FET:   83.20159747,
+  SUI:   143.15368,
+  JUP:   146.33147,
+  PYTH:  165.03012,
+  CFG:   147.6232654,
+  XTZ:   76.28253242,
+  BONK:  3751782.1,
+  DYM:   15.90963,
+  TIA:   6.72454,
+  MINA:  82.44023083,
+  AAVE:  0.85019554,
+  OP:    45.30484,
+  CHAT:  6.79296,
   USDT:  0,
   EUR:   0,
 };
@@ -45,7 +46,7 @@ const altCoins = () => ([
   data.SOL,   data.ALGO,  data.DOT,   data.MATIC,  data.ADA,  data.XRP,   data.LINK,  data.INJ,
   data.AVAX,  data.IMX,   data.HBAR,  data.RNDR,   data.KAS,  data.ATOM,  data.ICP,   data.TRX,
   data.ENS,   data.GRT,   data.NEAR,  data.FIL,    data.ARB,  data.FET,   data.SUI,   data.JUP,
-  data.PYTH,  data.CFG,   data.XTZ,   data.BONK,   data.DYM,  data.TIA,   data.MINA,  data.AAVE,  data.OP,
+  data.PYTH,  data.CFG,   data.XTZ,   data.BONK,   data.DYM,  data.TIA,   data.MINA,  data.AAVE,  data.OP,  data.CHAT,
 ]);
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
@@ -59,7 +60,7 @@ const investPerCoin = { // Invested EUR per coin
   DOT:   500,
   MATIC: 500,
   ADA:   500,
-  XRP:   500,
+  XRP:   400,
   LINK:  500,
   INJ:   500,
   AVAX:  500,
@@ -87,6 +88,7 @@ const investPerCoin = { // Invested EUR per coin
   MINA:  100,
   AAVE:  100,
   OP:    200,
+  CHAT:  100,
 };
 let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v) => a + v, 0); // 85500
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
@@ -95,7 +97,7 @@ let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v
 // Altcoins to lazy load (not displayed initially)
 
 const invisibleRows = ['ALGO','DOT','MATIC','ADA','XRP','LINK','INJ','AVAX','IMX','HBAR','RNDR','KAS',
-'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA','MINA','AAVE','OP'];
+'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA','MINA','AAVE','OP','CHAT'];
 
 // <tr class="row-imx">
 //   <td id="imx-holdings">...</td>
@@ -129,9 +131,16 @@ const loadAllBtn = document.getElementById('load-all-alts');
 if (loadAllBtn) { loadAllBtn.addEventListener('click', () => {
   showAll = !showAll;
 
-  if (showAll) { mainTable.classList.add('small-table'); }
-  else { mainTable.classList.remove('small-table'); }
-  loadAllBtn.innerText = showAll ? 'Collapse Altcoins' : 'Load All Altcoins';
+  if (showAll) { 
+    mainTable.classList.add('small-table'); 
+    loadAllBtn.innerText = 'Collapse Altcoins';
+    document.getElementById('hidden-inv-msg').style.display = 'none';
+  } else { 
+    mainTable.classList.remove('small-table'); 
+    loadAllBtn.innerText = 'Load All Altcoins';
+  }
+
+  
   invisibleRows.forEach((name, ind) => {
     const tr = document.getElementById('row-' + name.toLowerCase());
     if (showAll) { tr.classList.remove('invisible'); }
@@ -462,6 +471,7 @@ async function loadPrices() {
     fetchAlt('MINA',  holdings.MINA),
     fetchAlt('AAVE',  holdings.AAVE),
     fetchAlt('OP',    holdings.OP),
+    fetchAlt('CHAT',  holdings.CHAT),
   ]);
 
 
@@ -529,6 +539,7 @@ function printValues() {
   printCoin('MINA',  holdings.MINA,   data.MINA);
   printCoin('AAVE',  holdings.AAVE,   data.AAVE);
   printCoin('OP',    holdings.OP,     data.OP);
+  printCoin('CHAT',  holdings.CHAT,   data.CHAT);
   printCoin('USDT',  holdings.USDT,   data.USDT);
   printCoin('EUR',   holdings.EUR,    data.EUR);
 
@@ -714,6 +725,7 @@ function copyToClipboard() {
   text += 'MINA' + printLine(data.MINA);
   text += 'AAVE' + printLine(data.AAVE);
   text += 'OP'   + printLine(data.OP);
+  text += 'CHAT' + printLine(data.CHAT);
   text += `USDT\t${data.USDT.price.usdt}\t${data.USDT.price.eur}\n`;
   text += `EUR\t${data.EUR.price.usdt}\t${data.EUR.price.eur}\n`;
   navigator.clipboard.writeText(text);
@@ -812,9 +824,10 @@ async function getAltPrice(coinName, btcEur) {
     MINA  : 'mina-protocol',
     AAVE  : 'aave',
     OP    : 'optimism',
+    CHAT  : 'solchat',
   };
 
-  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP']; // these are not listed in Binance, so get em from coin gecko
+  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP', 'CHAT']; // these are not listed in Binance, so get em from coin gecko
   if (nonListed.indexOf(coinName) > 0) {
     console.log(`Getting ${coinName} from coingecko...`);
     const coinId = coinIds[coinName];
