@@ -96,6 +96,44 @@ let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v
 
 // Altcoins to lazy load (not displayed initially)
 
+const coinGeckoMap = {
+  ETH   : 'ethereum',
+  SOL   : 'solana',
+  ALGO  : 'algorand',
+  DOT   : 'polkadot',
+  MATIC : 'matic-network',
+  ADA   : 'cardano',
+  XRP   : 'ripple',
+  LINK  : 'chainlink',
+  INJ   : 'injective-protocol',
+  AVAX  : 'avalanche-2',
+  IMX   : 'immutable-x',
+  HBAR  : 'hedera-hashgraph',
+  RNDR  : 'render-token',
+  KAS   : 'kaspa',
+  ATOM  : 'cosmos',
+  ICP   : 'internet-computer',
+  TRX   : 'tron',
+  ENS   : 'ethereum-name-service',
+  GRT   : 'the-graph',
+  NEAR  : 'near',
+  FIL   : 'filecoin',
+  ARB   : 'arbitrum',
+  FET   : 'fetch-ai',
+  SUI   : 'sui',
+  JUP   : 'jupiter-exchange-solana',
+  PYTH  : 'pyth-network',
+  CFG   : 'centrifuge',
+  XTZ   : 'tezos',
+  BONK  : 'bonk',
+  DYM   : 'dymension',
+  TIA   : 'tia',
+  MINA  : 'mina-protocol',
+  AAVE  : 'aave',
+  OP    : 'optimism',
+  CHAT  : 'solchat',
+};
+
 const invisibleRows = ['ALGO','DOT','MATIC','ADA','XRP','LINK','INJ','AVAX','IMX','HBAR','RNDR','KAS',
 'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA','MINA','AAVE','OP','CHAT'];
 
@@ -593,7 +631,7 @@ function printCoin(coinName, val, obj) {
     console.log('oops');
     return;
   }
-  document.getElementById(coinLC + '-holdings').innerHTML = `${pad(val)} ${pad5Coin}`;
+  document.getElementById(coinLC + '-holdings').innerHTML = `${pad(val)} <a class="coin-link" target="_blank" href="https://www.coingecko.com/en/coins/${coinGeckoMap[coinName]}">${pad5Coin}</a>`;
   document.getElementById(coinLC + '-usd-price').innerHTML = ` 1 ${pad5Coin} = <span class="usd-price">${num(obj.price.usdt, 10, decimals)}</span> $`;
   document.getElementById(coinLC + '-eur-price').innerHTML = ` 1 ${pad5Coin} = <span class="eur-price">${num(obj.price.eur, 10, decimals)}</span> €`;
   document.getElementById(coinLC + '-usd-total').innerHTML = `<span class="usd-total">${num(obj.totals.usd)}</span> $`;
@@ -789,48 +827,10 @@ async function getPrice(symbol) {
   }
 }
 async function getAltPrice(coinName, btcEur) {
-  const coinIds = {
-    ETH   : 'ethereum',
-    SOL   : 'solana',
-    ALGO  : 'algorand',
-    DOT   : 'polkadot',
-    MATIC : 'matic-network',
-    ADA   : 'cardano',
-    XRP   : 'ripple',
-    LINK  : 'chainlink',
-    INJ   : 'injective-protocol',
-    AVAX  : 'avalanche-2',
-    IMX   : 'immutable-x',
-    HBAR  : 'hedera-hashgraph',
-    RNDR  : 'render-token',
-    KAS   : 'kaspa',
-    ATOM  : 'cosmos',
-    ICP   : 'internet-computer',
-    TRX   : 'tron',
-    ENS   : 'ethereum-name-service',
-    GRT   : 'the-graph',
-    NEAR  : 'near',
-    FIL   : 'filecoin',
-    ARB   : 'arbitrum',
-    FET   : 'fetch-ai',
-    SUI   : 'sui',
-    JUP   : 'jupiter-exchange-solana',
-    PYTH  : 'pyth-network',
-    CFG   : 'centrifuge',
-    XTZ   : 'tezos',
-    BONK  : 'bonk',
-    DYM   : 'dymension',
-    TIA   : 'tia',
-    MINA  : 'mina-protocol',
-    AAVE  : 'aave',
-    OP    : 'optimism',
-    CHAT  : 'solchat',
-  };
-
   const nonListed = ['KAS', 'CFG', 'BONK', 'JUP', 'CHAT']; // these are not listed in Binance, so get em from coin gecko
-  if (nonListed.indexOf(coinName) > 0) {
+  if (nonListed.indexOf(coinName) >= 0) {
     console.log(`Getting ${coinName} from coingecko...`);
-    const coinId = coinIds[coinName];
+    const coinId = coinGeckoMap[coinName];
     // curl "https://api.coingecko.com/api/v3/simple/price?ids=kaspa&vs_currencies=eur,usd,btc"  -H 'accept: application/json'
     // curl "https://api.coingecko.com/api/v3/simple/price?ids=centrifuge&vs_currencies=eur,usd,btc"  -H 'accept: application/json'
     // curl "https://api.coingecko.com/api/v3/simple/price?ids=bonk&vs_currencies=eur,usd,btc"  -H 'accept: application/json'

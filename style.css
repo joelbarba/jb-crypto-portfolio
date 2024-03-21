@@ -6,6 +6,12 @@ html { background: black; color: aliceblue; font-size: 16px; font-family: monosp
 .row-header { background: #424242; }
 th { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
 td { min-width: 100px; border: 1px #484848 solid; padding: 5px 20px; }
+tr:hover { background-color: #ffffff3d; }
+a.coin-link {
+  color: #76b5ff;
+  text-decoration: none;
+  font-weight: bold;
+}
 
 /*th:nth-child(4), td:nth-child(4) {*/
 /*  min-width: 100px;*/
