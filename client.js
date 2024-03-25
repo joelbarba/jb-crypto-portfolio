@@ -620,8 +620,6 @@ function printValues() {
 }
 
 
-
-
 function printCoin(coinName, val, obj) {
   const decimals = (coinName === 'BTC' || coinName === 'ETH') ? 2 : 6;
   const coinLC = coinName.toLowerCase();
@@ -843,7 +841,10 @@ async function getAltPrice(coinName, btcEur) {
       const price = res[coinId];
       return { usdt: price.usd, eur: price.eur, btc: price.btc };
 
-    } catch(err) { console.error(symbol); }
+    } catch(err) {
+      console.error(symbol); 
+      return { usdt: 0, eur: 0, btc: 0 };
+    }
 
   } else { // Get them from Binance
     const usdt = await getPrice(coinName + 'USDT');
