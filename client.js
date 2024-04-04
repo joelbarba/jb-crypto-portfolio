@@ -477,7 +477,8 @@ async function loadPrices() {
   el.innerHTML = `1 BTC = <span class="usd-price">${num(data.BTC.price.usdt, 10, 2)}</span> $`;
   console.log('----------------');
 
-  async function fetchAlt(name, quantity) {
+  async function fetchAlt(name) {
+    const quantity = holdings[name];
     const obj = { price: { usdt: 0, btc: 0, eur: 0 }, totals: { usd: 0, eur: 0, btc: 0 }};
     data[name] = obj;
 
@@ -491,9 +492,10 @@ async function loadPrices() {
     if (quantity > 0) {
       obj.price = await getAltPrice(name, btcEur); // Access price on CoinGecko
     }
-    printCoin(name, quantity, obj);
+    printCoin(name, quantity, data[name]);
     // return obj;
   }
+
 
   await Promise.all([
     fetchAlt('ETH',   holdings.ETH),
@@ -531,15 +533,18 @@ async function loadPrices() {
   ]);
 
   // not listed in binance (do them sequencially to avoid too many requests)
-  await fetchAlt('KAS',   holdings.KAS);
-  await fetchAlt('CFG',   holdings.CFG);
-  await fetchAlt('BONK',  holdings.BONK);
-  await fetchAlt('JUP',   holdings.JUP);
-  await fetchAlt('PYTH',  holdings.PYTH);
-  await fetchAlt('CHAT',  holdings.CHAT);
-  await fetchAlt('HNT',   holdings.HNT);
-  await fetchAlt('ONDO',  holdings.ONDO);
-  await fetchAlt('NOS',   holdings.NOS);
+  const alts = ['KAS','CFG','BONK','JUP','PYTH','CHAT','HNT','ONDO','NOS'];
+  alts.forEach(coin => data[coin] = { price: { usdt: 0, btc: 0, eur: 0 }, totals: { usd: 0, eur: 0, btc: 0 }}); // Init prices
+  if (showAll) {
+    await getCoinGeckoAlts(alts);
+    alts.forEach(name => {
+      if (document.getElementById(name.toLowerCase() + '-usd-price')) { 
+        document.getElementById(name.toLowerCase() + '-usd-price').style.background = '#ffcb0070';
+      }
+      printCoin(name, holdings[name], data[name]);
+    });
+  }
+
 
   calculateTotals();
   console.log(data);
@@ -883,7 +888,7 @@ async function getAltPrice(coinName, btcEur) {
     try {
       res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=eur,usd,btc`).then(r => r.json());
       // res = {"kaspa":{"eur":166.52,"usd":181.24,"btc":0.0026621}}
-      await sleep(500);
+      // await sleep(5000);
 
       const price = res[coinId];
       return { usdt: price.usd, eur: price.eur, btc: price.btc };
@@ -901,6 +906,29 @@ async function getAltPrice(coinName, btcEur) {
   }
 }
 
+
+
+
+async function getCoinGeckoAlts(alts) {
+  // data.KAS  = { price: { usdt: 0, btc: 0, eur: 0 }, totals: { usd: 0, eur: 0, btc: 0 }};
+  try {
+    const coinIds = alts.map(coin => coinGeckoMap[coin]).join(',');
+    res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIds}&vs_currencies=eur,usd,btc`).then(r => r.json());
+    // res = {
+    //         "kaspa":   {"eur":166.52,"usd":181.24,"btc":0.0026621}
+    //         "jupiter": {"eur":166.52,"usd":181.24,"btc":0.0026621}
+    //       }
+
+    alts.forEach(coin => {
+      const price = res[coinGeckoMap[coin]];
+      data[coin].price.usdt = price.usd;
+      data[coin].price.eur  = price.eur;
+      data[coin].price.btc  = price.btc;
+    });
+
+  } catch(err) { console.error('Error fetching from CoinGecko', err); }
+}
+
 // https://www.bitstamp.net/api/v2/currencies/
 // https://www.bitstamp.net/api/v2/eur_usd/
 // https://www.bitstamp.net/api/v2/ticker/btcusdt
@@ -908,3 +936,5 @@ async function getAltPrice(coinName, btcEur) {
 
 loadPrices();
 changePlay(false);
+
+
