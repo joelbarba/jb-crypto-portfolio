@@ -15,7 +15,7 @@ const holdings = {
   IMX:   164.52,
   HBAR:  4086.64314034,
   RNDR:  56.91,
-  KAS:   3415.34759,
+  KAS:   7720.79783,
   ATOM:  49.05030507,
   ICP:   37.20539115,
   TRX:   3973.23628,
@@ -26,8 +26,8 @@ const holdings = {
   ARB:   102.24426,
   FET:   83.20159747,
   SUI:   143.15368,
-  JUP:   146.33147,
-  PYTH:  165.03012,
+  JUP:   427.7303,
+  PYTH:  677.89008,
   CFG:   147.6232654,
   XTZ:   76.28253242,
   BONK:  3751782.1,
@@ -37,6 +37,12 @@ const holdings = {
   AAVE:  0.85019554,
   OP:    45.30484,
   CHAT:  6.79296,
+  ROSE:  840.36879,
+  HNT:   19.869111,
+  WLD:   31.39857,
+  ONDO:  697.08222,
+  GALA:  1759.88835,
+  NOS:   52.241336,
   USDT:  0,
   EUR:   0,
 };
@@ -46,7 +52,8 @@ const altCoins = () => ([
   data.SOL,   data.ALGO,  data.DOT,   data.MATIC,  data.ADA,  data.XRP,   data.LINK,  data.INJ,
   data.AVAX,  data.IMX,   data.HBAR,  data.RNDR,   data.KAS,  data.ATOM,  data.ICP,   data.TRX,
   data.ENS,   data.GRT,   data.NEAR,  data.FIL,    data.ARB,  data.FET,   data.SUI,   data.JUP,
-  data.PYTH,  data.CFG,   data.XTZ,   data.BONK,   data.DYM,  data.TIA,   data.MINA,  data.AAVE,  data.OP,  data.CHAT,
+  data.PYTH,  data.CFG,   data.XTZ,   data.BONK,   data.DYM,  data.TIA,   data.MINA,  data.AAVE,
+  data.OP,    data.CHAT,  data.ROSE,  data.HNT,    data.WLD,  data.ONDO,  data.GALA,  data.NOS,
 ]);
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
@@ -67,7 +74,7 @@ const investPerCoin = { // Invested EUR per coin
   IMX:   500,
   HBAR:  500,
   RNDR:  500,
-  KAS:   500,
+  KAS:   1000,
   ATOM:  500,
   ICP:   500,
   TRX:   500,
@@ -78,8 +85,8 @@ const investPerCoin = { // Invested EUR per coin
   ARB:   200,
   FET:   200,
   SUI:   200,
-  JUP:   100,
-  PYTH:  100,
+  JUP:   500,
+  PYTH:  500,
   CFG:   100,
   XTZ:   100,
   BONK:  100,
@@ -89,8 +96,14 @@ const investPerCoin = { // Invested EUR per coin
   AAVE:  100,
   OP:    200,
   CHAT:  100,
+  ROSE:  100,
+  HNT:   100,
+  WLD:   200,
+  ONDO:  500,
+  GALA:  100,
+  NOS:   200,
 };
-let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v) => a + v, 0); // 85500
+let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v) => a + v, 0); // 88000
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
 // localStorage.setItem('totalInvested', totalInvested);
 
@@ -132,10 +145,17 @@ const coinGeckoMap = {
   AAVE  : 'aave',
   OP    : 'optimism',
   CHAT  : 'solchat',
+  ROSE  : 'oasis-network',
+  HNT   : 'helium',
+  WLD   : 'worldcoin-wld',
+  ONDO  : 'ondo-finance',
+  GALA  : 'gala',
+  NOS   : 'nosana',
 };
 
 const invisibleRows = ['ALGO','DOT','MATIC','ADA','XRP','LINK','INJ','AVAX','IMX','HBAR','RNDR','KAS',
-'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA','MINA','AAVE','OP','CHAT'];
+'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA',
+'MINA','AAVE','OP','CHAT','ROSE','HNT','WLD','ONDO','GALA','NOS'];
 
 // <tr class="row-imx">
 //   <td id="imx-holdings">...</td>
@@ -210,7 +230,8 @@ document.getElementById('btn-interv-up').addEventListener('click', () => {
 document.getElementById('main-btc-usd').addEventListener('click', () => loadBTC());
 // document.getElementById('btn-clear-storage').addEventListener('click', () => localStorage.clear());
 
-document.getElementById('header-profits')?.addEventListener('click', () => mainTable.classList.add('table-with-profits'));
+// document.getElementById('header-profits')?.addEventListener('click', () => mainTable.classList.add('table-with-profits'));
+mainTable.classList.add('table-with-profits');
 
 const clock1 = document.getElementById('clock1');
 const clock2 = document.getElementById('clock2');
@@ -488,7 +509,6 @@ async function loadPrices() {
     fetchAlt('IMX',   holdings.IMX),
     fetchAlt('HBAR',  holdings.HBAR),
     fetchAlt('RNDR',  holdings.RNDR),
-    fetchAlt('KAS',   holdings.KAS),
     fetchAlt('ATOM',  holdings.ATOM),
     fetchAlt('ICP',   holdings.ICP),
     fetchAlt('TRX',   holdings.TRX),
@@ -499,19 +519,27 @@ async function loadPrices() {
     fetchAlt('ARB',   holdings.ARB),
     fetchAlt('FET',   holdings.FET),
     fetchAlt('SUI',   holdings.SUI),
-    fetchAlt('JUP',   holdings.JUP),
-    fetchAlt('PYTH',  holdings.PYTH),
-    fetchAlt('CFG',   holdings.CFG),
     fetchAlt('XTZ',   holdings.XTZ),
-    fetchAlt('BONK',  holdings.BONK),
     fetchAlt('DYM',   holdings.DYM),
     fetchAlt('TIA',   holdings.TIA),
     fetchAlt('MINA',  holdings.MINA),
     fetchAlt('AAVE',  holdings.AAVE),
     fetchAlt('OP',    holdings.OP),
-    fetchAlt('CHAT',  holdings.CHAT),
+    fetchAlt('ROSE',  holdings.ROSE),
+    fetchAlt('WLD',   holdings.WLD),
+    fetchAlt('GALA',  holdings.GALA),
   ]);
 
+  // not listed in binance (do them sequencially to avoid too many requests)
+  await fetchAlt('KAS',   holdings.KAS);
+  await fetchAlt('CFG',   holdings.CFG);
+  await fetchAlt('BONK',  holdings.BONK);
+  await fetchAlt('JUP',   holdings.JUP);
+  await fetchAlt('PYTH',  holdings.PYTH);
+  await fetchAlt('CHAT',  holdings.CHAT);
+  await fetchAlt('HNT',   holdings.HNT);
+  await fetchAlt('ONDO',  holdings.ONDO);
+  await fetchAlt('NOS',   holdings.NOS);
 
   calculateTotals();
   console.log(data);
@@ -578,8 +606,16 @@ function printValues() {
   printCoin('AAVE',  holdings.AAVE,   data.AAVE);
   printCoin('OP',    holdings.OP,     data.OP);
   printCoin('CHAT',  holdings.CHAT,   data.CHAT);
+  printCoin('ROSE',  holdings.ROSE,   data.ROSE);
+  printCoin('HNT',   holdings.HNT,    data.HNT);
+  printCoin('WLD',   holdings.WLD,    data.WLD);
+  printCoin('ONDO',  holdings.ONDO,   data.ONDO);
+  printCoin('GALA',  holdings.GALA,   data.GALA);
+  printCoin('NOS',   holdings.NOS,    data.NOS);
   printCoin('USDT',  holdings.USDT,   data.USDT);
   printCoin('EUR',   holdings.EUR,    data.EUR);
+
+
 
   let hiddenInvestment = 0;
   if (!showAll) {
@@ -762,6 +798,12 @@ function copyToClipboard() {
   text += 'AAVE' + printLine(data.AAVE);
   text += 'OP'   + printLine(data.OP);
   text += 'CHAT' + printLine(data.CHAT);
+  text += 'ROSE' + printLine(data.ROSE);
+  text += 'HNT'  + printLine(data.HNT);
+  text += 'WLD'  + printLine(data.WLD);
+  text += 'ONDO' + printLine(data.ONDO);
+  text += 'GALA' + printLine(data.GALA);
+  text += 'NOS'  + printLine(data.NOS);
   text += `USDT\t${data.USDT.price.usdt}\t${data.USDT.price.eur}\n`;
   text += `EUR\t${data.EUR.price.usdt}\t${data.EUR.price.eur}\n`;
   navigator.clipboard.writeText(text);
@@ -797,6 +839,10 @@ function rPad(number, width = 10, placeholder = '‎ ') {
   return n.length >= width ? n : n + (new Array(width - n.length + 1).join(placeholder));
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(() => resolve(), ms));
+}
+
 async function getPrice(symbol) {
   console.log(`Getting ${symbol}...`);
   try {
@@ -825,7 +871,7 @@ async function getPrice(symbol) {
   }
 }
 async function getAltPrice(coinName, btcEur) {
-  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP', 'CHAT']; // these are not listed in Binance, so get em from coin gecko
+  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP', 'CHAT', 'HNT', 'ONDO', 'NOS']; // these are not listed in Binance, so get em from coin gecko
   if (nonListed.indexOf(coinName) >= 0) {
     console.log(`Getting ${coinName} from coingecko...`);
     const coinId = coinGeckoMap[coinName];
@@ -837,12 +883,13 @@ async function getAltPrice(coinName, btcEur) {
     try {
       res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=eur,usd,btc`).then(r => r.json());
       // res = {"kaspa":{"eur":166.52,"usd":181.24,"btc":0.0026621}}
+      await sleep(500);
 
       const price = res[coinId];
       return { usdt: price.usd, eur: price.eur, btc: price.btc };
 
     } catch(err) {
-      console.error(symbol); 
+      console.error(err); 
       return { usdt: 0, eur: 0, btc: 0 };
     }
 
