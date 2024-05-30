@@ -60,8 +60,8 @@ const altCoins = () => ([
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
 const investPerCoin = { // Invested EUR per coin
-  BTC:   60230,
-  ETH:   12770,
+  BTC:   60000,
+  ETH:   13000,
   SOL:   2500,
   ALGO:  500,
   DOT:   500,
@@ -936,5 +936,6 @@ async function getCoinGeckoAlts(alts) {
 
 loadPrices();
 changePlay(false);
+
 
 
