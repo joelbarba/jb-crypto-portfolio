@@ -60,7 +60,7 @@ const altCoins = () => ([
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
 const investPerCoin = { // Invested EUR per coin
-  BTC:   62000,
+  BTC:   64000,
   ETH:   13000,
   SOL:   2500,
   ALGO:  500,
