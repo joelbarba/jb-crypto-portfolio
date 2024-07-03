@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.63388599
+  BTC:   2.63388599,
   ETH:   7.00779553,
   SOL:   27.49,
   ALGO:  2725.58307434,
