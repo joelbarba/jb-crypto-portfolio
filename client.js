@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.63458599,
+  BTC:   2.63388599
   ETH:   7.00779553,
   SOL:   27.49,
   ALGO:  2725.58307434,
@@ -358,11 +358,13 @@ async function loadColdWallet() {
   const address2 = `bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm`;  // White 1
   const address3 = `bc1qdlqvy9xmedwqat8sch3mq5y6hcvnvltfntvarc`;  // White 2
   const address4 = `0x70f47dD6D1b58033Ad18f436A8fC1531904749D7`;  // eth
+  const address4 = `bc1qg88g34vvqm5rc0rnmc8jhnjhvyjq4pkh8ga9kz`;  // Black 8
 
   const balance1 = 125000000;
   const balance2 = 118130752;
   const balance3 =   7000396;
   const balance4 = 7.00768131;
+  const balance5 = 0.13233792;
 
   // curl https://blockchain.info/q/addressbalance/bc1qykluy9ph2j74h65685ly3vq5gxje8evd5hyf66
   // curl https://blockchain.info/q/addressbalance/bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm
@@ -373,6 +375,7 @@ async function loadColdWallet() {
   const cwb2 = document.getElementById('cold-wallet-balance2');
   const cwb3 = document.getElementById('cold-wallet-balance3');
   const cwb4 = document.getElementById('cold-wallet-balance4');
+  const cwb5 = document.getElementById('cold-wallet-balance5');
 
   function checkBalance(balance, correctBalance, htmlObj, address) {
     console.log(`address ${address} = ${balance} BTC`);
@@ -395,6 +398,10 @@ async function loadColdWallet() {
   
   await fetch(`https://blockchain.info/q/addressbalance/${address3}`).then(q => q.json()).then(currentBalance => {
     checkBalance(currentBalance, balance3, cwb3, address3);
+  }).catch(err => console.log('Could not load Blockchain API'));
+
+  await fetch(`https://blockchain.info/q/addressbalance/${address5}`).then(q => q.json()).then(currentBalance => {
+    checkBalance(currentBalance, balance5, cwb5, address5);
   }).catch(err => console.log('Could not load Blockchain API'));
   
   fetch(`https://api.ethplorer.io/getAddressInfo/${address4}?apiKey=freekey`).then(q => q.json()).then(ethRes => {
