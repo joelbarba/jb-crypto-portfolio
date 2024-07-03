@@ -364,7 +364,7 @@ async function loadColdWallet() {
   const balance2 = 118130752;
   const balance3 =   7000396;
   const balance4 = 7.00768131;
-  const balance5 = 0.13233792;
+  const balance5 =  13233792;
 
   // curl https://blockchain.info/q/addressbalance/bc1qykluy9ph2j74h65685ly3vq5gxje8evd5hyf66
   // curl https://blockchain.info/q/addressbalance/bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm
