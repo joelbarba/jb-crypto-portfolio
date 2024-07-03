@@ -358,7 +358,7 @@ async function loadColdWallet() {
   const address2 = `bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm`;  // White 1
   const address3 = `bc1qdlqvy9xmedwqat8sch3mq5y6hcvnvltfntvarc`;  // White 2
   const address4 = `0x70f47dD6D1b58033Ad18f436A8fC1531904749D7`;  // eth
-  const address4 = `bc1qg88g34vvqm5rc0rnmc8jhnjhvyjq4pkh8ga9kz`;  // Black 8
+  const address5 = `bc1qg88g34vvqm5rc0rnmc8jhnjhvyjq4pkh8ga9kz`;  // Black 8
 
   const balance1 = 125000000;
   const balance2 = 118130752;
