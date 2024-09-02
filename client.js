@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   3.01235831,
+  BTC:   3.01234831,
   ETH:   7.00779553,
   SOL:   27.49,
   ALGO:  2725.58307434,
@@ -364,7 +364,7 @@ async function loadColdWallet() {
   const balance2 = 118130752;
   const balance3 =   7000396;
   const balance4 = 7.00768131;
-  const balance5 =  20295084;
+  const balance5 =  51080025;
 
   // curl https://blockchain.info/q/addressbalance/bc1qykluy9ph2j74h65685ly3vq5gxje8evd5hyf66
   // curl https://blockchain.info/q/addressbalance/bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm
