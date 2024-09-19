@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   3.01234831,
+  BTC:   3.01154255,
   ETH:   7.00779553,
   SOL:   27.49,
   ALGO:  2725.58307434,
@@ -359,12 +359,14 @@ async function loadColdWallet() {
   const address3 = `bc1qdlqvy9xmedwqat8sch3mq5y6hcvnvltfntvarc`;  // White 2
   const address4 = `0x70f47dD6D1b58033Ad18f436A8fC1531904749D7`;  // eth
   const address5 = `bc1qg88g34vvqm5rc0rnmc8jhnjhvyjq4pkh8ga9kz`;  // Black 8
+  const address6 = `bc1q0qp8uql8em3u3dzd9rzdv3d3ynvwmgmyrqlj4c`;  // Black 9
 
-  const balance1 = 125000000;
+  const balance1 =  38993655;
   const balance2 = 118130752;
   const balance3 =   7000396;
-  const balance4 = 7.00768131;
+  const balance4 = 7.00768131; // eth
   const balance5 =  51080025;
+  const balance6 =  85925769;
 
   // curl https://blockchain.info/q/addressbalance/bc1qykluy9ph2j74h65685ly3vq5gxje8evd5hyf66
   // curl https://blockchain.info/q/addressbalance/bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm
@@ -376,6 +378,7 @@ async function loadColdWallet() {
   const cwb3 = document.getElementById('cold-wallet-balance3');
   const cwb4 = document.getElementById('cold-wallet-balance4');
   const cwb5 = document.getElementById('cold-wallet-balance5');
+  const cwb6 = document.getElementById('cold-wallet-balance6');
 
   function checkBalance(balance, correctBalance, htmlObj, address) {
     console.log(`address ${address} = ${balance} BTC`);
@@ -402,6 +405,10 @@ async function loadColdWallet() {
 
   await fetch(`https://blockchain.info/q/addressbalance/${address5}`).then(q => q.json()).then(currentBalance => {
     checkBalance(currentBalance, balance5, cwb5, address5);
+  }).catch(err => console.log('Could not load Blockchain API'));
+
+  await fetch(`https://blockchain.info/q/addressbalance/${address6}`).then(q => q.json()).then(currentBalance => {
+    checkBalance(currentBalance, balance6, cwb6, address6);
   }).catch(err => console.log('Could not load Blockchain API'));
   
   fetch(`https://api.ethplorer.io/getAddressInfo/${address4}?apiKey=freekey`).then(q => q.json()).then(ethRes => {
