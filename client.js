@@ -43,6 +43,8 @@ const holdings = {
   ONDO:  697.08222,
   GALA:  1759.88835,
   NOS:   52.241336,
+  DOGE:  628.91974229,
+  CRV:   236.45523909,
   USDT:  0,
   EUR:   0,
 };
@@ -54,6 +56,7 @@ const altCoins = () => ([
   data.ENS,   data.GRT,   data.NEAR,  data.FIL,    data.ARB,  data.FET,   data.SUI,   data.JUP,
   data.PYTH,  data.CFG,   data.XTZ,   data.BONK,   data.DYM,  data.TIA,   data.MINA,  data.AAVE,
   data.OP,    data.CHAT,  data.ROSE,  data.HNT,    data.WLD,  data.ONDO,  data.GALA,  data.NOS,
+  data.DOGE,  data.CRV,
 ]);
 // Object.entries(holdings).forEach(([key, val]) => localStorage.setItem(key, val));
 
@@ -102,6 +105,8 @@ const investPerCoin = { // Invested EUR per coin
   ONDO:  500,
   GALA:  100,
   NOS:   200,
+  DOGE:  250,
+  CRV:   250,
 };
 let totalInvested = Object.entries(investPerCoin).map(([k,v]) => v).reduce((a, v) => a + v, 0); // 88000
 // const totalInvested = localStorage.getItem('totalInvested') || 50000;
@@ -151,20 +156,22 @@ const coinGeckoMap = {
   ONDO  : 'ondo-finance',
   GALA  : 'gala',
   NOS   : 'nosana',
+  DOGE  : 'dogecoin',
+  CRV   : 'curve-dao-token',
 };
 
 const invisibleRows = ['ALGO','DOT','MATIC','ADA','XRP','LINK','INJ','AVAX','IMX','HBAR','RNDR','KAS',
 'ATOM','ICP','TRX','ENS','GRT','NEAR','FIL','ARB','FET','SUI','JUP','PYTH','CFG','XTZ','BONK','DYM','TIA',
-'MINA','AAVE','OP','CHAT','ROSE','HNT','WLD','ONDO','GALA','NOS'];
+'MINA','AAVE','OP','CHAT','ROSE','HNT','WLD','ONDO','GALA','NOS', 'DOGE', 'CRV'];
 
-// <tr class="row-imx">
 //   <td id="imx-holdings">...</td>
 //   <td id="imx-usd-price">...</td>
 //   <td id="imx-eur-price">...</td>
 //   <td id="imx-btc-total">...</td>
 //   <td id="imx-usd-total">...</td>
 //   <td id="imx-eur-total">...</td>
-// </tr>
+//   <td id="imx-profit">...</td>
+//   <td id="imx-profit-per">...</td>
 // generate Html Table
 const mainTable = document.getElementById('main-table');
 Object.keys(holdings).forEach((name, ind) => {
@@ -172,7 +179,7 @@ Object.keys(holdings).forEach((name, ind) => {
   let newRow = mainTable.insertRow(1 + ind);
   newRow.id = 'row-' + lName;
   if (invisibleRows.indexOf(name) >= 0) { newRow.classList.add('invisible'); }
-  let newCells = [newRow.insertCell(0), newRow.insertCell(1), newRow.insertCell(2), newRow.insertCell(3), newRow.insertCell(4), newRow.insertCell(5), newRow.insertCell(6)];
+  let newCells = [newRow.insertCell(0), newRow.insertCell(1), newRow.insertCell(2), newRow.insertCell(3), newRow.insertCell(4), newRow.insertCell(5), newRow.insertCell(6), newRow.insertCell(7)];
   newCells[0].id = lName + '-holdings';
   newCells[1].id = lName + '-usd-price';
   newCells[2].id = lName + '-eur-price';
@@ -180,7 +187,9 @@ Object.keys(holdings).forEach((name, ind) => {
   newCells[4].id = lName + '-usd-total';
   newCells[5].id = lName + '-eur-total';
   newCells[6].id = lName + '-profit';
+  newCells[7].id = lName + '-profit-per';
   newCells[6].classList.add('profit-cell');
+  newCells[7].classList.add('profit-cell');
   newCells[3].classList.add('coin-btc-total');
 });
 
@@ -282,6 +291,41 @@ if (btnWSS) {
     }
   });
 }
+
+
+
+// -------- Show Hide Columns ------------------------
+document.getElementById('col-price-usd-check')?.addEventListener('click', (ev) => showHideCol('-usd-price', ev.target.checked));
+document.getElementById('col-price-eur-check')?.addEventListener('click', (ev) => showHideCol('-eur-price', ev.target.checked));
+document.getElementById('col-total-btc-check')?.addEventListener('click', (ev) => showHideCol('-btc-total', ev.target.checked));
+document.getElementById('col-total-usd-check')?.addEventListener('click', (ev) => showHideCol('-usd-total', ev.target.checked));
+document.getElementById('col-total-eur-check')?.addEventListener('click', (ev) => showHideCol('-eur-total', ev.target.checked));
+function showHideCol(colName, checked) {
+  Object.entries({ ...holdings, header: '' }).forEach(([key, val]) => {
+    const id = key.toLowerCase() + colName;
+    document.getElementById(id).style.display = checked ? 'table-cell' : 'none';
+  });
+  let checks = 0;
+  if (document.getElementById('col-price-usd-check').checked) { checks +=1 };
+  if (document.getElementById('col-price-eur-check').checked) { checks +=1 };
+  if (document.getElementById('col-total-btc-check').checked) { checks +=1 };
+  if (document.getElementById('col-total-usd-check').checked) { checks +=1 };
+  if (document.getElementById('col-total-eur-check').checked) { checks +=1 };
+  document.getElementById('separator-row').setAttribute('colspan', checks + 1);
+  document.getElementById('totals-btc').setAttribute('colspan',  Math.max(1, checks - 1)); // 3
+  document.getElementById('profit-pad2').setAttribute('colspan', Math.max(1, checks - 0)); // 4
+  document.getElementById('profit-pad').setAttribute('colspan',  Math.max(1, checks + 1)); // 5
+  document.getElementById('profit-pad3').setAttribute('colspan', Math.max(1, checks + 1)); // 5
+}
+if (document.getElementById('col-price-usd-check')) {
+  showHideCol('-usd-price', true);
+  showHideCol('-eur-price', true);
+  showHideCol('-btc-total', false);
+  showHideCol('-usd-total', false);
+  showHideCol('-eur-total', true);
+}
+
+
 
 
 
@@ -433,7 +477,7 @@ checkEur.addEventListener('click', (ev) => checkCurrency('eur'));
 function checkCurrency(curr) {
   if (curr === 'usd' && !checkUsd.checked && !checkEur.checked) { checkEur.checked = true; }
   if (curr === 'eur' && !checkEur.checked && !checkUsd.checked) { checkUsd.checked = true; }
-  // console.log('click', checkUsd.checked, checkEur.checked);
+  console.log('click', checkUsd.checked, checkEur.checked);
   Object.entries({ ...holdings, header: '' }).forEach(([key, val]) => {
     if (!document.getElementById(key.toLowerCase() + '-usd-price')) {
       console.log('OOOOOOPS');
@@ -443,12 +487,13 @@ function checkCurrency(curr) {
     document.getElementById(key.toLowerCase() + '-usd-total').style.display = checkUsd.checked ? 'table-cell' : 'none';
     document.getElementById(key.toLowerCase() + '-eur-total').style.display = checkEur.checked ? 'table-cell' : 'none';
   });
-  document.getElementById('separator-row').setAttribute('colspan', checkEur.checked && checkUsd.checked ? 5 : 3);
+  document.getElementById('separator-row').setAttribute('colspan', checkEur.checked && checkUsd.checked ? 6 : 3);
   document.getElementById('totals-btc').setAttribute('colspan', checkEur.checked && checkUsd.checked ? 2 : 1);
   document.getElementById('totals-usd-total').style.display = checkUsd.checked ? 'table-cell' : 'none';
   document.getElementById('totals-eur-total').style.display = checkEur.checked ? 'table-cell' : 'none';
   document.getElementById('totals-profit').style.display = checkEur.checked ? 'table-cell' : 'none';
-  document.getElementById('profit-pad').setAttribute('colspan', checkUsd.checked && checkUsd.checked ? 5 : 2);
+  // document.getElementById('totals-profit-per').style.display = checkEur.checked ? 'table-cell' : 'none';
+  document.getElementById('profit-pad').setAttribute('colspan', checkUsd.checked && checkUsd.checked ? 6 : 2);
 }
 checkUsd.checked = true;
 checkEur.checked = true;
@@ -547,7 +592,7 @@ async function loadPrices() {
   ]);
 
   // not listed in binance (do them sequencially to avoid too many requests)
-  const alts = ['KAS','CFG','BONK','JUP','PYTH','CHAT','HNT','ONDO','NOS'];
+  const alts = ['KAS','CFG','BONK','JUP','PYTH','CHAT','HNT','ONDO','NOS', 'DOGE', 'CRV'];
   alts.forEach(coin => data[coin] = { price: { usdt: 0, btc: 0, eur: 0 }, totals: { usd: 0, eur: 0, btc: 0 }}); // Init prices
   if (showAll) {
     await getCoinGeckoAlts(alts);
@@ -631,6 +676,8 @@ function printValues() {
   printCoin('ONDO',  holdings.ONDO,   data.ONDO);
   printCoin('GALA',  holdings.GALA,   data.GALA);
   printCoin('NOS',   holdings.NOS,    data.NOS);
+  printCoin('DOGE',  holdings.DOGE,   data.DOGE);
+  printCoin('CRV',   holdings.CRV,    data.CRV);
   printCoin('USDT',  holdings.USDT,   data.USDT);
   printCoin('EUR',   holdings.EUR,    data.EUR);
 
@@ -651,6 +698,11 @@ function printValues() {
   const net = totals.eur - (totalInvested - hiddenInvestment);
   const netClass = net > 0 ? 'pos' : 'neg' ;
   document.getElementById('totals-profit').innerHTML = `<span class="totals-profit ${netClass}">${net > 0 ? '+': ''}${num(net)}</span> €`;
+  const totPer = document.getElementById('totals-profit-per');
+  if (totPer) { 
+    console.log('TOTAL % profit = ', net, ' / ', (totalInvested - hiddenInvestment), ' = ', 100 * net / (totalInvested - hiddenInvestment));
+    totPer.innerHTML = `<span class="totals-profit-per ${netClass}">${net > 0 ? '+': ''} ${num(100 * net / (totalInvested - hiddenInvestment), 3, 1)} %</span>`;
+  }
 
   // Los primeros 6.000 euros se tributan al 19%, 
   // los siguientes 6.000 a 50.000 euros al 21%, 
@@ -692,15 +744,21 @@ function printCoin(coinName, val, obj) {
 
   if (coinName !== 'EUR' && coinName !== 'USDT') {
     const profit = obj.totals.eur - investPerCoin[coinName];
+    const profitPer = 100 * profit / investPerCoin[coinName];
     const profitEl = document.getElementById(coinLC + '-profit');
+    const profitPerEl = document.getElementById(coinLC + '-profit-per');
     if (profit < 0) {
       profitEl.classList.remove('profit-green');
       profitEl.classList.add('profit-red');
       profitEl.innerHTML = `${num(profit, 0)} €`;
+      profitPerEl.innerHTML = `${num(profitPer, 3, 1)} %`;
+      profitPerEl.classList.add('profit-red');
     } else {
       profitEl.classList.add('profit-green');
       profitEl.classList.remove('profit-red');
       profitEl.innerHTML = `+ ${num(profit, 0)} €`;
+      profitPerEl.innerHTML = `+ ${num(profitPer, 3, 1)} %`;
+      profitPerEl.classList.add('profit-green');
     }
   }
   
@@ -823,6 +881,8 @@ function copyToClipboard() {
   text += 'ONDO' + printLine(data.ONDO);
   text += 'GALA' + printLine(data.GALA);
   text += 'NOS'  + printLine(data.NOS);
+  text += 'DOGE' + printLine(data.DOGE);
+  text += 'CRV'  + printLine(data.CRV);
   text += `USDT\t${data.USDT.price.usdt}\t${data.USDT.price.eur}\n`;
   text += `EUR\t${data.EUR.price.usdt}\t${data.EUR.price.eur}\n`;
   navigator.clipboard.writeText(text);
@@ -890,7 +950,7 @@ async function getPrice(symbol) {
   }
 }
 async function getAltPrice(coinName, btcEur) {
-  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP', 'CHAT', 'HNT', 'ONDO', 'NOS']; // these are not listed in Binance, so get em from coin gecko
+  const nonListed = ['KAS', 'CFG', 'BONK', 'JUP', 'CHAT', 'HNT', 'ONDO', 'NOS', 'DOGE', 'CRV']; // these are not listed in Binance, so get em from coin gecko
   if (nonListed.indexOf(coinName) >= 0) {
     console.log(`Getting ${coinName} from coingecko...`);
     const coinId = coinGeckoMap[coinName];

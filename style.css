@@ -46,6 +46,8 @@ a.coin-link {
 
 .totals-profit.pos { color: lime; }
 .totals-profit.neg { color: red; }
+.totals-profit-per.pos { color: lime; }
+.totals-profit-per.neg { color: red; }
 
 tr.invisible { display: none; }
 

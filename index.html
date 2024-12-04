@@ -43,44 +43,25 @@
     <th id="header-btc-total">Total (btc)</th>
     <th id="header-usd-total">Total (usd)</th>
     <th id="header-eur-total">Total (eur)</th>
-    <th id="header-profits" style="min-width: 0px; cursor: pointer;">+</th>
+    <th id="header-profits" style="min-width: 0px; cursor: pointer;">Profit</th>
+    <th id="header-profits-per" style="min-width: 0px; cursor: pointer;">%</th>
   </tr>
 
-  <!-- <tr class="row-btc">
+  <!-- Dynamically added:
+
+  <tr class="row-btc">
     <td id="btc-holdings">1.28731828 btc</td>
     <td id="btc-usd-price">1 BTC   =  29,765.16 $</td>
     <td id="btc-eur-price">1 BTC   =  27,261.08 €</td>
-    <td id="btc-btc-total">??? btc</td>
     <td id="btc-usd-total">42,395.72 $</td>
     <td id="btc-eur-total">38,829.06 €</td>
-  </tr>
-  <tr class="row-eth">
-    <td id="eth-holdings">1.28731828 btc</td>
-    <td id="eth-usd-price">1 ETH   =  29,765.16 $</td>
-    <td id="eth-eur-price">1 ETH   =  27,261.08 €</td>
-    <td id="eth-btc-total">??? btc</td>
-    <td id="eth-usd-total">42,395.72 $</td>
-    <td id="eth-eur-total">38,829.06 €</td>
-  </tr> -->
+    <td id="btc-profit">+1000 €</td>
+    <td id="btc-profit-per">+50%</td>
+  </tr> 
 
+-->
 
-<!--   <tr class="row-usdt">
-    <td id="usdt-holdings">...</td>
-    <td id="usdt-usd-price">...</td>
-    <td id="usdt-eur-price">...</td>
-    <td id="usdt-btc-total">...</td>
-    <td id="usdt-usd-total">...</td>
-    <td id="usdt-eur-total">...</td>
-  </tr>
-  <tr class="row-eur">
-    <td id="eur-holdings">...</td>
-    <td id="eur-usd-price">...</td>
-    <td id="eur-eur-price">...</td>
-    <td id="eur-btc-total">...</td>
-    <td id="eur-usd-total">...</td>
-    <td id="eur-eur-total">...</td>
-  </tr> -->
-  <tr id="separator-row" ><td colspan="6"></td></tr>
+  <tr id="separator-row" ><td colspan="8"></td></tr>
   <tr class="row-totals">
     <td id="totals-holdings">TOTALS</td>
     <td id="totals-btc" colspan="3" style="text-align: right">...</td>
@@ -95,9 +76,10 @@
   <tr class="row-profit">
     <td id="profit-pad" colspan="5" style="border: none">Profit:</td>
     <td id="totals-profit">...</td>
+    <td id="totals-profit-per" class="profit-cell">...</td>
   </tr>
   <tr class="row-profit3">
-    <td id="profit-pad2" colspan="5" style="border: none">Net after tax:</td>
+    <td id="profit-pad3" colspan="5" style="border: none">Net after tax:</td>
     <td id="totals-profit-after-taxes" style="color: green">...</td>
   </tr>
 </table>
@@ -120,6 +102,15 @@
   <a href="https://etherscan.io/address/0x70f47dD6D1b58033Ad18f436A8fC1531904749D7" target="_blank" style="color: yellow;">0x70f47dD6D1b58033Ad18f436A8fC1531904749D7</a> : <span id="cold-wallet-balance4" style="color: #5aff0a;"></span><span> ETH</span><br/>
 
   <!-- <button id="cold-wallet-btn">Reload</button> -->
+</div>
+
+<div style="padding: 15px 0 0 5px; font-size: 30px;">
+  <!-- <h4>Columns</h4> -->
+  <label>Price USD:</label><input type="checkbox" checked="true"  id="col-price-usd-check" style="height: 25px; width: 25px; margin-right: 25px;">
+  <label>Price EUR:</label><input type="checkbox" checked="true"  id="col-price-eur-check" style="height: 25px; width: 25px; margin-right: 25px;">
+  <label>Total BTC:</label><input type="checkbox"                 id="col-total-btc-check" style="height: 25px; width: 25px; margin-right: 25px;">
+  <label>Total USD:</label><input type="checkbox"                 id="col-total-usd-check" style="height: 25px; width: 25px; margin-right: 25px;">
+  <label>Total EUR:</label><input type="checkbox" checked="true"  id="col-total-eur-check" style="height: 25px; width: 25px; margin-right: 25px;">
 </div>
 
 <div style="padding: 15px 0 0 5px; font-size: 30px;">
