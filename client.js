@@ -403,14 +403,14 @@ async function loadColdWallet() {
   const address3 = `bc1qdlqvy9xmedwqat8sch3mq5y6hcvnvltfntvarc`;  // White 2
   const address4 = `0x70f47dD6D1b58033Ad18f436A8fC1531904749D7`;  // eth
   const address5 = `bc1qg88g34vvqm5rc0rnmc8jhnjhvyjq4pkh8ga9kz`;  // Black 8
-  const address6 = `bc1q0qp8uql8em3u3dzd9rzdv3d3ynvwmgmyrqlj4c`;  // Black 9
+  const address6 = `bc1qwyd2ytncd2ndz43lw7dm27xquj73hhsjappr7n`;  // Black
 
   const balance1 =  38993655;
   const balance2 = 118130752;
   const balance3 =   7000396;
-  const balance4 = 7.00768131; // eth
+  const balance4 = 10.00708131; // eth
   const balance5 =  51080025;
-  const balance6 =  85925769;
+  const balance6 =  65924633;
 
   // curl https://blockchain.info/q/addressbalance/bc1qykluy9ph2j74h65685ly3vq5gxje8evd5hyf66
   // curl https://blockchain.info/q/addressbalance/bc1qmu0xcr0kf9e7dzld4kgvdvhx4f6nep6vhn2zmm
