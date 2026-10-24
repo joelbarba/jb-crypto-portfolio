@@ -1,7 +1,7 @@
 // alias push="sh ~/DEV/SHELL_SCRIPTS/push_crypto_site.sh"
 // git add -A && git commit -m "some trades" && git push origin master
 const holdings = {
-  BTC:   2.9740852300,
+  BTC:   3.0013478,
   ETH:   10.00719553,
   SOL:   27.48,
   ALGO:  2725.58307434,
@@ -63,7 +63,7 @@ const altCoins = () => ([
 const data = {};
 const totals = { usd: 0, eur: 0, btc: 0 };
 const investPerCoin = { // Invested EUR per coin
-  BTC:   83000, // 88500 - 10500 (7Jan2025) + 5000 (Sep2026), 
+  BTC:   85000, // 88500 - 10500 (7Jan2025) + 5000 (Sep2026) + 2000 (Oct2026), 
   ETH:   23500, // 13000 + 10500 (7Jan2025),
   SOL:   2500,
   ALGO:  500,
